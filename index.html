@@ -1,0 +1,53 @@
+<html>
+
+<head>
+    <script async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script>
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-81213477-3', 'auto');
+    </script>
+    <title>Scratch Message Notifier</title>
+    <link rel="stylesheet" href="./index.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="./index.js"></script>
+    <script src="./getsound.js"></script>
+    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
+    <script src="./favico-0.3.10.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+
+<body onload="main()">
+    <nav>
+        <ul id="outerNavBar">
+            <center style="font-size:40px;">📨 Scratch Message Notifier 🔔</center>
+        </ul>
+    </nav>
+    <div id="page">
+        <div id="notifier" style="display:none;">
+            <br>
+            <br>
+            <br>
+            <span style="float:left;"><img id="profilepic"><a id="username" onclick="newUser('Enter a new username',0)" title="Change username" style="font-size:30px;cursor:pointer;color:#25AFF4;"></a></span></span>
+            <span style="float:right;"><span style="cursor:pointer;" title="Enable/disable notifications"><i class="material-icons" id="bellicon" style="font-size:50px;"></i></span>
+            <span style="float:right;"><span style="cursor:pointer;" title="Enable/disable notification sound"><i class="material-icons" id="soundicon" style="font-size:50px;"></i></span>
+          </span>
+            <center id="centered"><span id="msgNum" style="font-size:300px;color:#F49D25">...</span>
+                <br><a href="https://scratch.mit.edu/messages/" target="_blank"><i class="material-icons" style="font-size:100px;color:#25AFF4;" title="Open messages in new tab">open_in_new</i></a></center>
+        </div>
+    </div>
+
+</body>
+
+</html>
