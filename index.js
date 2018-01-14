@@ -86,7 +86,7 @@ function notifier() {
                     var favicon=new Favico({
                       type : 'rectangle',
                     });
-                    favicon.badge(msg===0:''?msg);
+                    favicon.badge(msg===0?'':msg);
                 }
 
                 document.getElementById("msgNum").innerText = msg;
