@@ -82,7 +82,7 @@ function notifier() {
                 msg = (parsedData = JSON.parse(apireq.responseText).count);
 
                 if(document.getElementById("msgNum").innerText==="...")setFavicon();
-                
+
                 if(document.getElementById("msgNum").innerText!=="..." && msg>document.getElementById("msgNum").innerText) {
                     notify();
                     setFavicon();
