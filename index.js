@@ -83,10 +83,16 @@ function notifier() {
 
                 if(document.getElementById("msgNum").innerText!=="..." && msg>document.getElementById("msgNum").innerText) {
                     notify();
+                    if(msg===0) {
+                        document.querySelector("link[rel='shortcut icon']").href = "./images/favicon.ico";
+                        document.querySelector("link[rel*='icon']").href = "./images/favicon.ico";
+                    }
+                    else {
                     var favicon=new Favico({
                       type : 'rectangle',
                     });
-                    favicon.badge(msg===0?'':msg);
+                    favicon.badge(msg);
+                    }
                 }
 
                 document.getElementById("msgNum").innerText = msg;
