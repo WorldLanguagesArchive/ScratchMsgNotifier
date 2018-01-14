@@ -81,18 +81,11 @@ function notifier() {
             if (apireq.readyState === 4 && apireq.status === 200) {
                 msg = (parsedData = JSON.parse(apireq.responseText).count);
 
+                if(document.getElementById("msgNum").innerText==="...")setFavicon();
+                
                 if(document.getElementById("msgNum").innerText!=="..." && msg>document.getElementById("msgNum").innerText) {
                     notify();
-                    if(msg===0) {
-                        document.querySelector("link[rel='shortcut icon']").href = "./images/favicon.ico";
-                        document.querySelector("link[rel*='icon']").href = "./images/favicon.ico";
-                    }
-                    else {
-                    var favicon=new Favico({
-                      type : 'rectangle',
-                    });
-                    favicon.badge(msg);
-                    }
+                    setFavicon();
                 }
 
                 document.getElementById("msgNum").innerText = msg;
@@ -138,4 +131,17 @@ function newUser(msg,firsttime) {
   }
 }
 );
+}
+
+function setFavicon() {
+  if(msg===0) {
+      document.querySelector("link[rel='shortcut icon']").href = "./images/favicon.ico";
+      document.querySelector("link[rel*='icon']").href = "./images/favicon.ico";
+  }
+  else {
+  var favicon=new Favico({
+    type : 'rectangle',
+  });
+  favicon.badge(msg);
+  }
 }
