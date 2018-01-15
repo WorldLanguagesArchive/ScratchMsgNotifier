@@ -96,7 +96,7 @@ function notifier() {
       if(localStorage.getItem("notifications")==="1") {
         var notification = new Notification('New Scratch message', {
             icon: './logo.png',
-            body: "You have " + msg + " unread message" + msg===1?"":"s" + ".\nClick to read them.",
+            body: "You have " + msg + " unread message" + (msg===1?"":"s") + ".\nClick to read them.",
         });
       } // If notifications enabled
       if(localStorage.getItem("sound")==="1")snd.play()
