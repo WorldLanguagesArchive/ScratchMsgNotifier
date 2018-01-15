@@ -71,6 +71,12 @@ function notifier() {
         }
     };
 
+    document.getElementById("markRead").onclick = function() {
+      if(msg===0)return;
+      messagestab = window.open("https://scratch.mit.edu/messages/", "", "width=1, height=1")
+      closeTabOnClear();
+    }
+
     user = localStorage.getItem("username");
 
     setInterval(function(){
@@ -81,33 +87,58 @@ function notifier() {
             if (apireq.readyState === 4 && apireq.status === 200) {
                 msg = (parsedData = JSON.parse(apireq.responseText).count);
 
-                if(document.getElementById("msgNum").innerText==="...")setFavicon();
+                if(document.getElementById("msgNum").innerText==="...") {
+                  setFavicon();
+                  if(msg>0) {
+                    document.getElementById("markRead").style.cursor = "pointer";
+                    document.getElementById("markRead").children[0].style.color = "#25AFF4";
+                  }
+                }
 
                 if(document.getElementById("msgNum").innerText!=="..." && msg>document.getElementById("msgNum").innerText) {
                     notify();
                     setFavicon();
+                    document.getElementById("markRead").style.cursor = "pointer";
+                    document.getElementById("markRead").children[0].style.color = "#25AFF4";
+                }
+
+                if(msg<document.getElementById("msgNum").innerText && document.getElementById("msgNum").innerText!=="...") { // If message number went down or is zero
+                  setFavicon();
+                  document.getElementById("markRead").style.cursor = "not-allowed";
+                  document.getElementById("markRead").children[0].style.color = "gray";
                 }
 
                 document.getElementById("msgNum").innerText = msg;
             }}; // Request loaded
     },3000);
 
-    var notify = function() {
-      if(localStorage.getItem("notifications")==="1") {
-        var notification = new Notification('New Scratch message', {
-            icon: './images/logo.png',
-            body: "You have " + msg + " unread message" + (msg===1?"":"s") + ".\nClick to read them.",
-        });
-        notification.onclick = function() {
-          messagestab = window.open("https://scratch.mit.edu/messages/");
-          notification.close();
-          closeTabOnClear();
-        }
-      } // If notifications enabled
-      if(localStorage.getItem("sound")==="1")snd.play()
-    };
-
 } // End notifier
+
+function notify() {
+  var timesClicked = 0;
+  if(localStorage.getItem("notifications")==="1") {
+    var notification = new Notification(msg + ' new Scratch message' + (msg===1?"":"s"), {
+        icon: './images/logo.png',
+        body: "Click to read them.\nDouble click to mark the message" + (msg===1?"":"s") + " as read.",
+    });
+    notification.onclick = function() {
+      timesClicked++;
+      if(timesClicked===1) {
+        setTimeout(function() {
+          if(timesClicked===2)return;
+        window.open("https://scratch.mit.edu/messages/");
+        notification.close();
+      }, 500);
+    }
+      if(timesClicked===2) {
+      messagestab = window.open("https://scratch.mit.edu/messages/", "", "width=1, height=1")
+      notification.close();
+      closeTabOnClear();
+    }
+    }
+  } // If notifications enabled
+  if(localStorage.getItem("sound")==="1")snd.play()
+}
 
 function newUser(msg,firsttime) {
   swal(msg, {
@@ -162,7 +193,7 @@ function closeTabOnClear() {
           if(msg===0) {
             messagestab.close();
           } else {
-            setTimeout(closeTabOnClear,200);
+            setTimeout(closeTabOnClear,100);
           }
 }};
 }
