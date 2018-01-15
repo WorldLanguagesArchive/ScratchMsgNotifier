@@ -71,7 +71,7 @@ function notifier() {
         }
     };
 
-    var user = localStorage.getItem("username");
+    user = localStorage.getItem("username");
 
     setInterval(function(){
         var apireq = new XMLHttpRequest();
