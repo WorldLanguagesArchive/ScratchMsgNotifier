@@ -99,8 +99,9 @@ function notifier() {
             body: "You have " + msg + " unread message" + (msg===1?"":"s") + ".\nClick to read them.",
         });
         notification.onclick = function() {
-          var x = window.open("https://scratch.mit.edu/messages/");
-          setTimeout(function(){x.close();},4000);
+          messagestab = window.open("https://scratch.mit.edu/messages/");
+          notification.close();
+          closeTabOnClear();
         }
       } // If notifications enabled
       if(localStorage.getItem("sound")==="1")snd.play()
@@ -148,4 +149,19 @@ function setFavicon() {
   });
   favicon.badge(msg);
   }
+}
+
+function closeTabOnClear() {
+  var apireq = new XMLHttpRequest();
+  apireq.open( "GET", 'https://api.scratch.mit.edu/users/' + user + '/messages/count?' + Math.floor(Date.now()), true);
+  apireq.send();
+  apireq.onreadystatechange = function() {
+      if (apireq.readyState === 4 && apireq.status === 200) {
+          msg = (parsedData = JSON.parse(apireq.responseText).count);
+
+          if(msg===0) {
+            messagestab.close();
+          } else {
+            setTimeout(closeTabOnClear,200);
+          }
 }
