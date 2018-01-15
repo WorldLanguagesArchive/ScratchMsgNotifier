@@ -95,7 +95,7 @@ function notifier() {
     var notify = function() {
       if(localStorage.getItem("notifications")==="1") {
         var notification = new Notification('New Scratch message', {
-            icon: './logo.png',
+            icon: './images/logo.png',
             body: "You have " + msg + " unread message" + (msg===1?"":"s") + ".\nClick to read them.",
         });
       } // If notifications enabled
