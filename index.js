@@ -98,6 +98,10 @@ function notifier() {
             icon: './images/logo.png',
             body: "You have " + msg + " unread message" + (msg===1?"":"s") + ".\nClick to read them.",
         });
+        notification.onclick = function() {
+          var x = window.open("https://scratch.mit.edu/messages/");
+          setTimeout(function(){x.close();},4000);
+        }
       } // If notifications enabled
       if(localStorage.getItem("sound")==="1")snd.play()
     };
