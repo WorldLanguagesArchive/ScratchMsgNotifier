@@ -164,4 +164,5 @@ function closeTabOnClear() {
           } else {
             setTimeout(closeTabOnClear,200);
           }
+}};
 }
