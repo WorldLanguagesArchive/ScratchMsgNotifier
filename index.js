@@ -44,7 +44,7 @@ function notifier() {
         document.getElementById("soundicon").innerText = "volume_off";
     }
 
-    document.getElementById("profilepic").src = "https://cdn2.scratch.mit.edu/get_image/user/"+localStorage.getItem("userid")+"_30x30.png";
+    document.getElementById("profilepic").src = "https://cdn2.scratch.mit.edu/get_image/user/"+localStorage.getItem("userid")+"_60x60.png";
     document.getElementById("username").innerText = localStorage.getItem("username");
 
     document.getElementById("bellicon").onclick = function() {
@@ -73,71 +73,104 @@ function notifier() {
 
     document.getElementById("markRead").onclick = function() {
       if(msg===0)return;
-      messagestab = window.open("https://scratch.mit.edu/messages/", "", "width=1, height=1")
-      closeTabOnClear();
+      markRead();
     }
+
+    tabFocused = true;
+
+    document.addEventListener('visibilitychange', function(){
+      tabFocused = !document.hidden;
+      if(tabFocused && typeof(msg)!==undefined){
+        document.getElementById("msgNum").innerText = msg;
+      }
+    });
+
+    messagesTab = null;
 
     user = localStorage.getItem("username");
 
-    setInterval(function(){
-        var apireq = new XMLHttpRequest();
-        apireq.open( "GET", 'https://api.scratch.mit.edu/users/' + user + '/messages/count?' + Math.floor(Date.now() / 1000), true);
-        apireq.send();
-        apireq.onreadystatechange = function() {
-            if (apireq.readyState === 4 && apireq.status === 200) {
-                msg = (parsedData = JSON.parse(apireq.responseText).count);
-
-                if(document.getElementById("msgNum").innerText==="...") {
-                  setFavicon();
-                  if(msg>0) {
-                    document.getElementById("markRead").style.cursor = "pointer";
-                    document.getElementById("markRead").children[0].style.color = "#25AFF4";
-                  }
-                }
-
-                if(document.getElementById("msgNum").innerText!=="..." && msg>document.getElementById("msgNum").innerText) {
-                    notify();
-                    setFavicon();
-                    document.getElementById("markRead").style.cursor = "pointer";
-                    document.getElementById("markRead").children[0].style.color = "#25AFF4";
-                }
-
-                if(msg<document.getElementById("msgNum").innerText && document.getElementById("msgNum").innerText!=="...") { // If message number went down or is zero
-                  setFavicon();
-                  document.getElementById("markRead").style.cursor = "not-allowed";
-                  document.getElementById("markRead").children[0].style.color = "gray";
-                }
-
-                document.getElementById("msgNum").innerText = msg;
-            }}; // Request loaded
-    },3000);
+    setInterval(checkMessages,3000);
+    checkMessages();
 
 } // End notifier
 
+function checkMessages() {
+  var apireq = new XMLHttpRequest();
+  apireq.open( "GET", 'https://api.scratch.mit.edu/users/' + user + '/messages/count?' + Math.floor(Date.now()), true);
+  apireq.send();
+  apireq.onreadystatechange = function() {
+      if (apireq.readyState === 4 && apireq.status === 200) {
+          msg = String(JSON.parse(apireq.responseText).count);
+
+          if(msg===document.getElementById("msgNum").innerText) return;
+
+          setFavicon();
+
+          if(msg>document.getElementById("msgNum").innerText) notify();
+
+          if(msg==="0" && document.getElementById("msgNum").innerText!=="0") {
+            document.getElementById("markRead").style.cursor = "not-allowed";
+            document.getElementById("markRead").children[0].style.color = "gray";
+            return;
+          }
+
+          if(document.getElementById("msgNum").innerText==="0" && msg>0) {
+            document.getElementById("markRead").style.cursor = "pointer";
+            document.getElementById("markRead").children[0].style.color = "#25AFF4";
+          }
+
+          if(tabFocused) document.getElementById("msgNum").innerText = msg;
+      }}; // Request loaded
+    }
+
 function notify() {
   var timesClicked = 0;
+  var s = msg===1?"":"s";
   if(localStorage.getItem("notifications")==="1") {
-    var notification = new Notification(msg + ' new Scratch message' + (msg===1?"":"s"), {
+    var notification = new Notification(msg + ' new Scratch message' + s, {
         icon: './images/logo.png',
-        body: "Click to read them.\nDouble click to mark the message" + (msg===1?"":"s") + " as read.",
+        body: "Click to read them.\nDouble click to mark the message" + s + " as read.",
     });
     notification.onclick = function() {
       timesClicked++;
       if(timesClicked===1) {
         setTimeout(function() {
-          if(timesClicked===2)return;
-        window.open("https://scratch.mit.edu/messages/");
-        notification.close();
+          if(timesClicked!==1)return;
+          notification.close();
+          openMessages();
       }, 500);
     }
       if(timesClicked===2) {
-      messagestab = window.open("https://scratch.mit.edu/messages/", "", "width=1, height=1")
-      notification.close();
-      closeTabOnClear();
+        notification.close();
+        markRead();
     }
-    }
+    };
   } // If notifications enabled
-  if(localStorage.getItem("sound")==="1")snd.play()
+  if(localStorage.getItem("sound")==="1") snd.play();
+}
+
+function openMessages() {
+  if(messagesTab){
+    messagesTab.location.replace("https://scratch.mit.edu/messages/");
+    messagesTab.focus();
+  } else {
+  messagesTab = window.open("https://scratch.mit.edu/messages/");
+  var onClose = setInterval(function() {
+    if(messagesTab.closed){
+       messagesTab = null;
+       clearInterval(onClose);
+     }
+   }, 1000);
+  }
+}
+
+function markRead() {
+  if(messagesTab){
+    messagesTab.location.replace("https://scratch.mit.edu/messages/");
+  } else {
+    readMsgTab = window.open("https://scratch.mit.edu/messages/", "", "width=100, height=100, top=1000000, left=1000000");
+    closeTabOnClear();
+  }
 }
 
 function newUser(msg,firsttime) {
@@ -171,7 +204,6 @@ function newUser(msg,firsttime) {
 
 function setFavicon() {
   if(msg===0) {
-      document.querySelector("link[rel='shortcut icon']").href = "./images/favicon.ico";
       document.querySelector("link[rel*='icon']").href = "./images/favicon.ico";
   }
   else {
@@ -188,10 +220,10 @@ function closeTabOnClear() {
   apireq.send();
   apireq.onreadystatechange = function() {
       if (apireq.readyState === 4 && apireq.status === 200) {
-          msg = (parsedData = JSON.parse(apireq.responseText).count);
+          msg = JSON.parse(apireq.responseText).count;
 
           if(msg===0) {
-            messagestab.close();
+            readMsgTab.close();
           } else {
             setTimeout(closeTabOnClear,100);
           }
