@@ -4,9 +4,11 @@
 /*End Imports*/
 /*Start General CSS*/
 
-body {
+body, html {
 	font-family: Montserrat;
 	background-color: #F1F1F1;
+	margin: 0px;
+	height: 100%;
  }
 
 #outerNavBar {
@@ -14,7 +16,6 @@ body {
 	background-color: #25AFF4;
 	color: #F9F9F9;
 	margin: 0;
-	position: fixed;
 	top: 0;
 	left: 0;
 	padding: 1em 0px;
