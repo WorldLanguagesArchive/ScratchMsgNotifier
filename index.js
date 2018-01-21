@@ -44,7 +44,7 @@ function notifier() {
         document.getElementById("soundicon").innerText = "volume_off";
     }
 
-    document.getElementById("profilepic").src = "https://cdn2.scratch.mit.edu/get_image/user/"+localStorage.getItem("userid")+"_30x30.png";
+    document.getElementById("profilepic").src = "https://cdn2.scratch.mit.edu/get_image/user/"+localStorage.getItem("userid")+"_60x60.png";
     document.getElementById("username").innerText = localStorage.getItem("username");
 
     document.getElementById("bellicon").onclick = function() {

@@ -24,24 +24,42 @@
     <script src="./favico-0.3.10.min.js"></script>
     <script src="https://momentjs.com/downloads/moment.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 </head>
 
 <body onload="main()">
     <nav>
         <ul id="outerNavBar">
-            <center style="font-size:40px;">📨 Scratch Message Notifier 🔔</center>
+            <center style="font-size:40px;"><i class="fa fa-envelope" aria-hidden="true"></i> Scratch Message Notifier <i class="fa fa-bell" aria-hidden="true"></i></center>
         </ul>
     </nav>
     <div id="page">
         <div id="notifier" style="display:none;">
             <br>
-            <br>
-            <br>
-            <span style="float:left;"><img id="profilepic"><a id="username" onclick="newUser('Enter a new username',0)" style="font-size:30px;cursor:pointer;color:#25AFF4;"></a><br><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Click in your username to change it</small></span>
-            <span style="cursor:pointer;float:right;" title="Enable/disable notification sound"><i class="material-icons" id="soundicon" style="font-size:50px;"></i></span>
-            <span style="cursor:pointer;float:right;" title="Enable/disable notifications"><i class="material-icons" id="bellicon" style="font-size:50px;"></i></span>
-            <center id="centered"><span id="msgNum" style="font-size:300px;color:#F49D25">...</span>
-                <br><a href="https://scratch.mit.edu/messages/" target="_blank"><i class="material-icons" style="font-size:100px;color:#25AFF4;" title="Open messages in new tab">open_in_new</i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a id="markRead" style="cursor:not-allowed;" title="Mark messages as read"> <i class="material-icons" style="font-size:100px;color:gray">done_all</i></a></center>
+                        <div class="left" style=" margin-left: 2em; float:left;">
+                            <table>
+
+                                <tr>
+                                    <td><img id="profilepic"></td>
+                                    
+                                    <td>
+                                        <a id="username" onclick="newUser('Enter a new username',0)" style="font-size:30px;cursor:pointer;color:#25AFF4;"></a>
+                                        <hr style="border: none; border-bottom: solid 1px #d3d3d3; margin-top: 0px; margin-bottom: 5px;">
+                                        <small>Click in your username to change it</small></td>
+                            </table>
+                        </div>
+                        <div class="right" style="float:right; margin-right: 2em" >
+                            <span style="cursor:pointer;" title="Enable/disable notification sound"><i class="material-icons" id="soundicon" style="font-size:50px;"></i></span>
+                            <span style="cursor:pointer;" title="Enable/disable notifications"><i class="material-icons" id="bellicon" style="font-size:50px;"></i></span>
+                        </div>
+            <center id="centered">
+                <br>
+                <br>
+                <div id="msgNum" style="font-size:300px;color:#F49D25;">...</div>
+                
+                <table><tr><td><a href="https://scratch.mit.edu/messages/" target="_blank" class="icon"><i class="material-icons" style="font-size:100px;color:#25AFF4;" title="Open messages in new tab">open_in_new</i></a></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>
+                <a id="markRead" style="cursor:not-allowed;" title="Mark messages as read" class="icon"> <i class="material-icons gray" style="font-size:100px;color:gray">done_all</i></a></td></tr></table>
+            </center>
         </div>
     </div>
 
