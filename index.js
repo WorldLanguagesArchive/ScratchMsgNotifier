@@ -76,15 +76,6 @@ function notifier() {
       markRead();
     }
 
-    tabFocused = true;
-
-    document.addEventListener('visibilitychange', function(){
-      tabFocused = !document.hidden;
-      if(tabFocused && typeof(msg)!==undefined){
-        document.getElementById("msgNum").innerText = msg;
-      }
-    });
-
     messagesTab = null;
 
     user = localStorage.getItem("username");
@@ -119,13 +110,13 @@ function checkMessages() {
             document.getElementById("markRead").children[0].style.color = "#25AFF4";
           }
 
-          if(tabFocused) document.getElementById("msgNum").innerText = msg;
+          document.getElementById("msgNum").innerText = msg;
       }}; // Request loaded
     }
 
 function notify() {
   var timesClicked = 0;
-  var s = msg===1?"":"s";
+  var s = (msg===1?"":"s");
   if(localStorage.getItem("notifications")==="1") {
     var notification = new Notification(msg + ' new Scratch message' + s, {
         icon: './images/logo.png',
