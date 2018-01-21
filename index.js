@@ -72,7 +72,7 @@ function notifier() {
     };
 
     document.getElementById("markRead").onclick = function() {
-      if(msg===0)return;
+      if(msg==="0")return;
       markRead();
     }
 
@@ -203,7 +203,7 @@ function newUser(msg,firsttime) {
 }
 
 function setFavicon() {
-  if(msg===0) {
+  if(msg==="0") {
       document.querySelector("link[rel*='icon']").href = "./images/favicon.ico";
   }
   else {
@@ -220,9 +220,9 @@ function closeTabOnClear() {
   apireq.send();
   apireq.onreadystatechange = function() {
       if (apireq.readyState === 4 && apireq.status === 200) {
-          msg = JSON.parse(apireq.responseText).count;
+          var msgNum = JSON.parse(apireq.responseText).count;
 
-          if(msg===0) {
+          if(msgNum===0) {
             readMsgTab.close();
           } else {
             setTimeout(closeTabOnClear,100);
