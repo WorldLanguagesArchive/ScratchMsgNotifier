@@ -44,7 +44,7 @@ function notifier() {
         document.getElementById("soundicon").innerText = "volume_off";
     }
 
-    document.getElementById("profilepic").src = "https://cdn2.scratch.mit.edu/get_image/user/"+localStorage.getItem("userid")+"_60x60.png";
+    document.getElementById("profilepic").src = "https://cdn2.scratch.mit.edu/get_image/user/"+localStorage.getItem("userid")+"_100x100.png";
     document.getElementById("username").innerText = localStorage.getItem("username");
 
     document.getElementById("bellicon").onclick = function() {
@@ -79,13 +79,15 @@ function notifier() {
     messagesTab = null;
 
     user = localStorage.getItem("username");
+    notifications = function() {return Number(localStorage.getItem("notifications"));};
+    audio = function() {return Number(localStorage.getItem("sound"));};
 
-    setInterval(checkMessages,3000);
-    checkMessages();
+    setInterval(function(){checkMessages(false)},3000);
+    checkMessages(true);
 
 } // End notifier
 
-function checkMessages() {
+function checkMessages(firstime) {
   var apireq = new XMLHttpRequest();
   apireq.open( "GET", 'https://api.scratch.mit.edu/users/' + user + '/messages/count?' + Math.floor(Date.now()), true);
   apireq.send();
@@ -97,11 +99,12 @@ function checkMessages() {
 
           setFavicon();
 
-          if(msg>document.getElementById("msgNum").innerText) notify();
+          if(msg>document.getElementById("msgNum").innerText && firstime===false) notify();
 
           if(msg==="0" && document.getElementById("msgNum").innerText!=="0") {
             document.getElementById("markRead").style.cursor = "not-allowed";
             document.getElementById("markRead").children[0].style.color = "gray";
+            document.getElementById("msgNum").innerText = msg;
             return;
           }
 
@@ -117,7 +120,7 @@ function checkMessages() {
 function notify() {
   var timesClicked = 0;
   var s = (msg===1?"":"s");
-  if(localStorage.getItem("notifications")==="1") {
+  if(notifications()) {
     var notification = new Notification(msg + ' new Scratch message' + s, {
         icon: './images/logo.png',
         body: "Click to read them.\nDouble click to mark the message" + s + " as read.",
@@ -137,7 +140,7 @@ function notify() {
     }
     };
   } // If notifications enabled
-  if(localStorage.getItem("sound")==="1") snd.play();
+  if(audio()) snd.play();
 }
 
 function openMessages() {

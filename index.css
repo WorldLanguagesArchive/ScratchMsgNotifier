@@ -15,14 +15,14 @@ body, html {
 	width: 100%;
 	background-color: #25AFF4;
 	color: #F9F9F9;
-	margin: 0;
 	top: 0;
 	left: 0;
-	padding: 1em 0px;
+	padding: 1.5vh 0px;
  }
 
 #centered {
     margin: auto;
     position: relative;
-    width: 400;
+    width: 50vw;
+		margin-top: 5vh;
 }
