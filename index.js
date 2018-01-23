@@ -79,6 +79,7 @@ function notifier() {
     messagesTab = null;
 
     user = localStorage.getItem("username");
+    notifClose = localStorage.getItem("notifTimeClose")==="0"?Infinity:localStorage.getItem("notifTimeClose")*1000;
     notifications = function() {return Number(localStorage.getItem("notifications"));};
     audio = function() {return Number(localStorage.getItem("sound"));};
 
@@ -118,13 +119,16 @@ function checkMessages(firstime) {
     }
 
 function notify() {
+  if(audio()) snd.play();
+  if(!notifications) return;
   var timesClicked = 0;
   var s = (msg===1?"":"s");
-  if(notifications()) {
-    var notification = new Notification(msg + ' new Scratch message' + s, {
+¿    var notification = new Notification(msg + ' new Scratch message' + s, {
         icon: './images/logo.png',
         body: "Click to read them.\nDouble click to mark the message" + s + " as read.",
     });
+    setTimeout(function(){notification.close();},notifClose);
+    })
     notification.onclick = function() {
       timesClicked++;
       if(timesClicked===1) {
@@ -139,8 +143,6 @@ function notify() {
         markRead();
     }
     };
-  } // If notifications enabled
-  if(audio()) snd.play();
 }
 
 function openMessages() {
