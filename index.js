@@ -119,8 +119,8 @@ function checkMessages(firstime) {
     }
 
 function notify() {
-  if(audio() && !notifications) snd.play();
-  if(!notifications) return;
+  if(audio() && !notifications()) snd.play();
+  if(!notifications()) return;
   var timesClicked = 0;
   var s = (msg===1?"":"s");
   var notification = new Notification(msg + ' new Scratch message' + s, {
