@@ -115,7 +115,7 @@ function checkMessages(firstime) {
                   commentsNew.push(document.getElementsByClassName("comment ")[i].getAttribute("data-comment-id"));
                   if(commentsOld[i]!==commentsNew[i] && checkDiff) {
                     var commentAuthor = document.getElementsByClassName("comment ")[i].getElementsByTagName("a")[0].getAttribute("data-comment-user");
-                    var commentContent = document.getElementsByClassName("content")[i].innerText.replace(/(@\S+)/gi,"").replace(/(\r\n|\n|\r)/gm,"").replace(/\                    /g, '').replace(/\          /g, '')
+                    var commentContent = document.getElementsByClassName("content")[i].innerText.replace(/\s\s+/g, ' ').replace(/^ +/gm, '').substring(0,document.getElementsByClassName("content")[i].innerText.replace(/\s\s+/g, ' ').replace(/^ +/gm, '').length-1)
                     var commentID = document.getElementsByClassName("comment ")[i].getAttribute("data-comment-id");
                     notify("New comment on your profile", commentContent, "https://scratch.mit.edu/users/"+user+"/#comments-"+commentID);
                     checkDiff = false;
