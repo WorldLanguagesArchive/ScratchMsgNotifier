@@ -107,18 +107,18 @@ function checkMessages(firstime) {
             apireq2.onreadystatechange = function() {
               if (apireq2.readyState === 4 && apireq2.status === 200) {
                 commentsNewHTML = apireq2.responseText.replace(/\s/g, '');
-                if(commentsOld.length < (commentsNewHTML.match(/class="comment"/g) || []).length) {
+                if(commentsOldHTML !== commentsNewHTML) {
                   document.getElementById("parseComments").innerHTML = apireq2.responseText.replace(/src/g, "asdf");;
                   commentsNew = [];
                 var checkDiff = true;
                 for (i = 0; i < document.getElementsByClassName("comment ").length; i++) {
                   commentsNew.push(document.getElementsByClassName("comment ")[i].getAttribute("data-comment-id"));
-                  if(commentsOld[i]!==commentsNew[i] && checkDiff) {
+                    var commentAgo = ((new Date().getTime()) - new Date(document.getElementsByClassName("comment ")[i].getElementsByClassName("time")[0].getAttribute("title")).getTime())/1000;
+                    if(commentsOld[i]!==commentsNew[i] && checkDiff) {
                     var commentAuthor = document.getElementsByClassName("comment ")[i].getElementsByTagName("a")[0].getAttribute("data-comment-user");
                     var commentContent = document.getElementsByClassName("content")[i].innerText.replace(/\s\s+/g, ' ').replace(/^ +/gm, '').substring(0,document.getElementsByClassName("content")[i].innerText.replace(/\s\s+/g, ' ').replace(/^ +/gm, '').length-1)
                     var commentID = document.getElementsByClassName("comment ")[i].getAttribute("data-comment-id");
-                    console.log(commentContent)
-                    notify("New comment on your profile", commentContent, "https://scratch.mit.edu/users/"+user+"/#comments-"+commentID);
+                    if(commentAgo<100) notify("New comment on your profile", commentContent, "https://scratch.mit.edu/users/"+user+"/#comments-"+commentID);
                     checkDiff = false;
                   }
                   if(i===document.getElementsByClassName("comment ").length-1) {
