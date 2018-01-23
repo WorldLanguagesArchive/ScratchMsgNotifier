@@ -167,15 +167,12 @@ function checkMessages(firstime) {
 }
 
 function notify(title,body,link) {
-  console.log(title);
-  console.log(body);
-  console.log(link);
   if(audio() && !notifications()) snd.play();
   if(!notifications()) return;
   var timesClicked = 0;
   var notification = new Notification(title, {
         icon: './images/logo.png',
-        body: "body",
+        body: body,
     });
     setTimeout(function(){notification.close();},notifClose);
     notification.onshow = function(){
@@ -187,7 +184,7 @@ function notify(title,body,link) {
         setTimeout(function() {
           if(timesClicked!==1)return;
           notification.close();
-          openMessages();
+          openLink(link);
       }, 500);
     }
       if(timesClicked===2) {
@@ -197,12 +194,12 @@ function notify(title,body,link) {
     };
 }
 
-function openMessages() {
+function openLink(url) {
   if(messagesTab){
-    messagesTab.location.replace("https://scratch.mit.edu/messages/");
+    messagesTab.location.replace(url);
     messagesTab.focus();
   } else {
-  messagesTab = window.open("https://scratch.mit.edu/messages/");
+  messagesTab = window.open(url);
   var onClose = setInterval(function() {
     if(messagesTab.closed){
        messagesTab = null;
