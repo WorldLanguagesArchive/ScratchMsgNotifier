@@ -119,7 +119,7 @@ function checkMessages(firstime) {
     }
 
 function notify() {
-  if(audio()) snd.play();
+  if(audio() && !notifications) snd.play();
   if(!notifications) return;
   var timesClicked = 0;
   var s = (msg===1?"":"s");
@@ -128,6 +128,9 @@ function notify() {
         body: "Click to read them.\nDouble click to mark the message" + s + " as read.",
     });
     setTimeout(function(){notification.close();},notifClose);
+    notification.onshow = function(){
+      if(audio()) snd.play();
+    }
     notification.onclick = function() {
       timesClicked++;
       if(timesClicked===1) {
