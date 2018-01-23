@@ -123,7 +123,7 @@ function notify() {
   if(!notifications) return;
   var timesClicked = 0;
   var s = (msg===1?"":"s");
-¿    var notification = new Notification(msg + ' new Scratch message' + s, {
+  var notification = new Notification(msg + ' new Scratch message' + s, {
         icon: './images/logo.png',
         body: "Click to read them.\nDouble click to mark the message" + s + " as read.",
     });
