@@ -129,7 +129,7 @@ function checkMessages(firstime) {
                 commentsOldHTML = commentsNewHTML;
               } // If there are new comments
               else { // If there aren't
-                var s = (msg===1?"":"s");
+                var s = (msg==="1"?"":"s");
                 notify(msg + ' new Scratch message' + s,"Click to read them.\nDouble click to mark the message" + s + " as read.","https://scratch.mit.edu/messages/")
               }
 
