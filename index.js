@@ -117,6 +117,7 @@ function checkMessages(firstime) {
                     var commentAuthor = document.getElementsByClassName("comment ")[i].getElementsByTagName("a")[0].getAttribute("data-comment-user");
                     var commentContent = document.getElementsByClassName("content")[i].innerText.replace(/\s\s+/g, ' ').replace(/^ +/gm, '').substring(0,document.getElementsByClassName("content")[i].innerText.replace(/\s\s+/g, ' ').replace(/^ +/gm, '').length-1)
                     var commentID = document.getElementsByClassName("comment ")[i].getAttribute("data-comment-id");
+                    console.log(commentContent)
                     notify("New comment on your profile", commentContent, "https://scratch.mit.edu/users/"+user+"/#comments-"+commentID);
                     checkDiff = false;
                   }
