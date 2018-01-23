@@ -128,7 +128,6 @@ function notify() {
         body: "Click to read them.\nDouble click to mark the message" + s + " as read.",
     });
     setTimeout(function(){notification.close();},notifClose);
-    })
     notification.onclick = function() {
       timesClicked++;
       if(timesClicked===1) {
