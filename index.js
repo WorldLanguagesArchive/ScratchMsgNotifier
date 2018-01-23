@@ -100,7 +100,40 @@ function checkMessages(firstime) {
 
           setFavicon();
 
-          if(msg>document.getElementById("msgNum").innerText && firstime===false) notify();
+          if(msg>document.getElementById("msgNum").innerText && firstime===false) {
+            var apireq2 = new XMLHttpRequest();
+            apireq2.open( "GET", 'https://cors-anywhere.herokuapp.com/https://scratch.mit.edu/site-api/comments/user/'+user+'/?' + Math.floor(Date.now()), true);
+            apireq2.send();
+            apireq2.onreadystatechange = function() {
+              if (apireq2.readyState === 4 && apireq2.status === 200) {
+                commentsNewHTML = apireq2.responseText.replace(/\s/g, '');
+                if(commentsOld.length < (commentsNewHTML.match(/class="comment"/g) || []).length) {
+                  document.getElementById("parseComments").innerHTML = apireq2.responseText.replace(/src/g, "asdf");;
+                  commentsNew = [];
+                var checkDiff = true;
+                for (i = 0; i < document.getElementsByClassName("comment ").length; i++) {
+                  commentsNew.push(document.getElementsByClassName("comment ")[i].getAttribute("data-comment-id"));
+                  if(commentsOld[i]!==commentsNew[i] && checkDiff) {
+                    var commentAuthor = document.getElementsByClassName("comment ")[i].getElementsByTagName("a")[0].getAttribute("data-comment-user");
+                    var commentContent = document.getElementsByClassName("content")[i].innerText.replace(/(@\S+)/gi,"").replace(/(\r\n|\n|\r)/gm,"").replace(/\                    /g, '').replace(/\          /g, '')
+                    var commentID = document.getElementsByClassName("comment ")[i].getAttribute("data-comment-id");
+                    notify("New comment on your profile", commentContent, "https://scratch.mit.edu/users/"+user+"/#comments-"+commentID);
+                    checkDiff = false;
+                  }
+                  if(i===document.getElementsByClassName("comment ").length-1) {
+                    commentsOldHTML = commentsNewHTML;
+                    commentsOld = commentsNew;
+                  }
+                }
+                commentsOldHTML = commentsNewHTML;
+              } // If there are new comments
+              else { // If there aren't
+                var s = (msg===1?"":"s");
+                notify(msg + ' new Scratch message' + s,"Click to read them.\nDouble click to mark the message" + s + " as read.","https://scratch.mit.edu/messages/")
+              }
+
+              }}
+           } // If we should notify
 
           if(msg==="0" && document.getElementById("msgNum").innerText!=="0") {
             document.getElementById("markRead").style.cursor = "not-allowed";
@@ -116,16 +149,33 @@ function checkMessages(firstime) {
 
           document.getElementById("msgNum").innerText = msg;
       }}; // Request loaded
-    }
 
-function notify() {
+      if(firstime){
+        var apireq = new XMLHttpRequest();
+        apireq.open( "GET", 'https://cors-anywhere.herokuapp.com/https://scratch.mit.edu/site-api/comments/user/'+user+'/?' + Math.floor(Date.now()), true);
+        apireq.send();
+        apireq.onreadystatechange = function() {
+          if (apireq.readyState === 4 && apireq.status === 200) {
+            commentsOldHTML = apireq.responseText.replace(/\s/g, '')
+            commentsOld = [];
+            document.getElementById("parseComments").innerHTML = apireq.responseText.replace(/src/g, "asdf");
+            for (i = 0; i < document.getElementsByClassName("comment ").length; i++) {
+              commentsOld.push(document.getElementsByClassName("comment ")[i].getAttribute("data-comment-id"));
+            }
+          }}
+        }
+}
+
+function notify(title,body,link) {
+  console.log(title);
+  console.log(body);
+  console.log(link);
   if(audio() && !notifications()) snd.play();
   if(!notifications()) return;
   var timesClicked = 0;
-  var s = (msg===1?"":"s");
-  var notification = new Notification(msg + ' new Scratch message' + s, {
+  var notification = new Notification(title, {
         icon: './images/logo.png',
-        body: "Click to read them.\nDouble click to mark the message" + s + " as read.",
+        body: "body",
     });
     setTimeout(function(){notification.close();},notifClose);
     notification.onshow = function(){
