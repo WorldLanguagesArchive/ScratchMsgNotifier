@@ -121,7 +121,9 @@ function checkMessages(firstime) {
                     var commentContent = document.getElementsByClassName("content")[i].innerText.replace(/\s\s+/g, ' ').replace(/^ +/gm, '').substring(0,document.getElementsByClassName("content")[i].innerText.replace(/\s\s+/g, ' ').replace(/^ +/gm, '').length-1)
                     var commentID = document.getElementsByClassName("comment ")[i].getAttribute("data-comment-id");
                     if(commentAgo<100 && commentAuthor!==user){
-                      notifyComment(commentAuthor,commentContent, commentID)
+                      var s = (msg==="0"?"":"s");
+                      if(msg==="1") notifyComment(commentAuthor,commentContent, commentID)
+                      if(msg!=="1") notify("[COMMENT] " + msg + ' new Scratch message' + s,commentAuthor+"commented:"+commentContent+"\nClick to read them.\nDouble click to mark the message" + s + " as read.","https://scratch.mit.edu/messages/")
                       checkDiff = false;
                     }
                   } // If there's a new comment
@@ -133,7 +135,7 @@ function checkMessages(firstime) {
               } // If there is a change in the HTML
               else { // If there isn't
                 var s = (msg==="0"?"":"s");
-                notify(msg + ' new Scratch message' + s,"Click to read them.\nDouble click to mark the message" + s + " as read.","https://scratch.mit.edu/messages/")
+                notify(msg + ' new Scratch message' + s,"Click to read " + msg===1?"it":"them" + ".\nDouble click to mark the message" + s + " as read.","https://scratch.mit.edu/messages/")
               }
 
               }}
@@ -171,8 +173,6 @@ function checkMessages(firstime) {
 }
 
 function notify(title,body,link) {
-  if(audio() && !notifications()) snd.play();
-  if(!notifications()) return;
   var timesClicked = 0;
   var notification = new Notification(title, {
         icon: './images/logo.png',
@@ -199,11 +199,9 @@ function notify(title,body,link) {
 }
 
 function notifyComment(author,content,Id) {
-  var timesClicked = 0;
-  var s = (msg==="0"?"":"s");
-  var notification = new Notification(author + " commented:", {
+  var notification = new Notification(author+" commented:", {
         icon: './images/logo.png',
-        body: content + "\n\nClick to go to the comment.\nDouble click to mark " + msg + "message" + s + " as read.",
+        body: content + "\n\nClick to mark the message as read and then go to the comment.\nDouble click to mark the message as read.",
     });
     setTimeout(function(){notification.close();},notifClose);
     notification.onshow = function(){
@@ -215,7 +213,8 @@ function notifyComment(author,content,Id) {
         setTimeout(function() {
           if(timesClicked!==1)return;
           notification.close();
-          openLink("https://scratch.mit.edu/users/"+user+"/#comments-"+Id);
+          openLink("https://scratch.mit.edu/messages");
+          closeTabOnClear(function(){messagesTab.location.replace("https://scratch.mit.edu/users/"+user+"/#comments-"+Id)});
       }, 500);
     }
       if(timesClicked===2) {
@@ -245,7 +244,7 @@ function markRead() {
     messagesTab.location.replace("https://scratch.mit.edu/messages/");
   } else {
     readMsgTab = window.open("https://scratch.mit.edu/messages/", "", "width=100, height=100, top=1000000, left=1000000");
-    closeTabOnClear();
+    closeTabOnClear(function(){readMsgTab.close();});
   }
 }
 
@@ -290,7 +289,7 @@ function setFavicon() {
   }
 }
 
-function closeTabOnClear() {
+function closeTabOnClear(ondone) {
   var apireq = new XMLHttpRequest();
   apireq.open( "GET", 'https://api.scratch.mit.edu/users/' + user + '/messages/count?' + Math.floor(Date.now()), true);
   apireq.send();
@@ -299,7 +298,7 @@ function closeTabOnClear() {
           var msgNum = JSON.parse(apireq.responseText).count;
 
           if(msgNum===0) {
-            readMsgTab.close();
+            ondone();
           } else {
             setTimeout(closeTabOnClear,100);
           }
