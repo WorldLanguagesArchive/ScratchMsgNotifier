@@ -200,7 +200,7 @@ function notify(title,body,link) {
 
 function notifyComment(author,content,Id) {
   var timesClicked = 0;
-  var s = (msg==="0"1?"":"s");
+  var s = (msg==="0"?"":"s");
   var notification = new Notification(author + " commented:", {
         icon: './images/logo.png',
         body: content + "\n\nClick to go to the comment" + (msg===1?" and mark the message as read.":"") + "\nDouble click to mark " + msg + "message" + s " as read.",
