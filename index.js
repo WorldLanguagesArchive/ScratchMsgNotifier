@@ -123,7 +123,7 @@ function checkMessages(firstime) {
                     if(commentAgo<100 && commentAuthor!==user){
                       var s = (msg==="0"?"":"s");
                       if(msg==="1") notifyComment(commentAuthor,commentContent, commentID)
-                      if(msg!=="1") notify("[COMMENT] " + msg + ' new Scratch message' + s,commentAuthor+"commented:"+commentContent+"\nClick to read them.\nDouble click to mark the message" + s + " as read.","https://scratch.mit.edu/messages/")
+                      if(msg!=="1") notify("New comment (" + msg + "messages", commentAuthor+" commented:\n"+commentContent+"\n\nClick to read them.\nDouble click to mark the messages as read.","https://scratch.mit.edu/messages/")
                       checkDiff = false;
                     }
                   } // If there's a new comment
@@ -203,7 +203,7 @@ function notifyComment(author,content,Id) {
   var notifTitle = author + " commented:"
   var notification = new Notification(notifTitle, {
         icon: './images/logo.png',
-        body: content + "\n\nClick to mark the message as read and then go to the comment.\nDouble click to mark the message as read.",
+        body: content.length>250?content.substring(0,250)+"...":content + "\n\nClick to read the comment and mark it as read.\nDouble click to mark the message as read.\nTriple click to read the comment without marking it as read.",
     });
     setTimeout(function(){notification.close();},notifClose);
     notification.onshow = function(){
@@ -220,9 +220,15 @@ function notifyComment(author,content,Id) {
       }, 500);
     }
       if(timesClicked===2) {
+        setTimeout(function() {
+          if(timesClicked!==2)return;
         notification.close();
         markRead();
+      },250);
     }
+    if(timesClicked===3) {
+      openLink("https://scratch.mit.edu/users/"+user+"/#comments-"+Id)
+  }
     };
 }
 
