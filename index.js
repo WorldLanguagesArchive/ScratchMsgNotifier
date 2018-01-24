@@ -132,7 +132,7 @@ function checkMessages(firstime) {
                 }
               } // If there is a change in the HTML
               else { // If there isn't
-                var s = (msg==="0"1?"":"s");
+                var s = (msg==="0"?"":"s");
                 notify(msg + ' new Scratch message' + s,"Click to read them.\nDouble click to mark the message" + s + " as read.","https://scratch.mit.edu/messages/")
               }
 
