@@ -135,7 +135,7 @@ function checkMessages(firstime) {
               } // If there is a change in the HTML
               else { // If there isn't
                 var s = (msg==="0"?"":"s");
-                notify(msg + ' new Scratch message' + s,"Click to read " + msg===1?"it":"them" + ".\nDouble click to mark the message" + s + " as read.","https://scratch.mit.edu/messages/")
+                notify(msg + ' new Scratch message' + s,"Click to read " + (msg===1?"it":"them") + ".\nDouble click to mark the message" + s + " as read.","https://scratch.mit.edu/messages/")
               }
 
               }}
@@ -300,7 +300,7 @@ function closeTabOnClear(ondone) {
           if(msgNum===0) {
             ondone();
           } else {
-            setTimeout(closeTabOnClear,100);
+            setTimeout(function(){closeTabOnClear(ondone)},100);
           }
 }};
 }
