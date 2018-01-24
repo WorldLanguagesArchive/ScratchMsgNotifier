@@ -203,7 +203,7 @@ function notifyComment(author,content,Id) {
   var s = (msg==="0"?"":"s");
   var notification = new Notification(author + " commented:", {
         icon: './images/logo.png',
-        body: content + "\n\nClick to go to the comment" + (msg===1?" and mark the message as read.":"") + "\nDouble click to mark " + msg + "message" + s " as read.",
+        body: content + "\n\nClick to go to the comment" + (msg===1?" and mark the message as read.":"") + "\nDouble click to mark " + msg + "message" + s + " as read.",
     });
     setTimeout(function(){notification.close();},notifClose);
     notification.onshow = function(){
