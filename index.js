@@ -101,35 +101,38 @@ function checkMessages(firstime) {
           setFavicon();
 
           if(msg>document.getElementById("msgNum").innerText && firstime===false) {
+            if(!notifications() && audio()){snd.play();return;}
+            if(!notifications()) return;
             var apireq2 = new XMLHttpRequest();
             apireq2.open( "GET", 'https://cors-anywhere.herokuapp.com/https://scratch.mit.edu/site-api/comments/user/'+user+'/?' + Math.floor(Date.now()), true);
             apireq2.send();
             apireq2.onreadystatechange = function() {
               if (apireq2.readyState === 4 && apireq2.status === 200) {
-                commentsNewHTML = apireq2.responseText.replace(/\s/g, '');
+                var commentsNewHTML = apireq2.responseText.replace(/\s/g, '');
                 if(commentsOldHTML !== commentsNewHTML) {
-                  document.getElementById("parseComments").innerHTML = apireq2.responseText.replace(/src/g, "asdf");;
-                  commentsNew = [];
+                  document.getElementById("parseComments").innerHTML = apireq2.responseText.replace(/src/g, "asdf");
+                  var commentsNew = [];
                 var checkDiff = true;
                 for (i = 0; i < document.getElementsByClassName("comment ").length; i++) {
                   commentsNew.push(document.getElementsByClassName("comment ")[i].getAttribute("data-comment-id"));
-                    var commentAgo = ((new Date().getTime()) - new Date(document.getElementsByClassName("comment ")[i].getElementsByClassName("time")[0].getAttribute("title")).getTime())/1000;
                     if(commentsOld[i]!==commentsNew[i] && checkDiff) {
+                    var commentAgo = ((new Date().getTime()) - new Date(document.getElementsByClassName("comment ")[i].getElementsByClassName("time")[0].getAttribute("title")).getTime())/1000;
                     var commentAuthor = document.getElementsByClassName("comment ")[i].getElementsByTagName("a")[0].getAttribute("data-comment-user");
                     var commentContent = document.getElementsByClassName("content")[i].innerText.replace(/\s\s+/g, ' ').replace(/^ +/gm, '').substring(0,document.getElementsByClassName("content")[i].innerText.replace(/\s\s+/g, ' ').replace(/^ +/gm, '').length-1)
                     var commentID = document.getElementsByClassName("comment ")[i].getAttribute("data-comment-id");
-                    if(commentAgo<100) notify("New comment on your profile", commentContent, "https://scratch.mit.edu/users/"+user+"/#comments-"+commentID);
-                    checkDiff = false;
-                  }
+                    if(commentAgo<100 && commentAuthor!==user){
+                      notifyComment(commentAuthor,commentContent, commentID)
+                      checkDiff = false;
+                    }
+                  } // If there's a new comment
                   if(i===document.getElementsByClassName("comment ").length-1) {
                     commentsOldHTML = commentsNewHTML;
                     commentsOld = commentsNew;
                   }
                 }
-                commentsOldHTML = commentsNewHTML;
-              } // If there are new comments
-              else { // If there aren't
-                var s = (msg==="1"?"":"s");
+              } // If there is a change in the HTML
+              else { // If there isn't
+                var s = (msg==="0"1?"":"s");
                 notify(msg + ' new Scratch message' + s,"Click to read them.\nDouble click to mark the message" + s + " as read.","https://scratch.mit.edu/messages/")
               }
 
@@ -186,6 +189,35 @@ function notify(title,body,link) {
           if(timesClicked!==1)return;
           notification.close();
           openLink(link);
+      }, 500);
+    }
+      if(timesClicked===2) {
+        notification.close();
+        markRead();
+    }
+    };
+}
+
+function notifyComment(author,content,Id) {
+  var timesClicked = 0;
+  var s = (msg==="0"1?"":"s");
+  var notification = new Notification(author + " commented:", {
+        icon: './images/logo.png',
+        body: content + "\n\nClick to go to the comment" + (msg===1?" and mark the message as read.":"") + "\nDouble click to mark " + msg + "message" + s " as read.",
+    });
+    setTimeout(function(){notification.close();},notifClose);
+    notification.onshow = function(){
+      if(audio()) snd.play();
+    }
+    notification.onclick = function() {
+      timesClicked++;
+      if(timesClicked===1) {
+        setTimeout(function() {
+          if(timesClicked!==1)return;
+          notification.close();
+          readMsgTab = window.open("https://scratch.mit.edu/messages/", "", "width=100, height=100, top=1000000, left=1000000");
+          closeTabOnClear();
+          openLink("https://scratch.mit.edu/users/"+user+"/#comments-"+Id);
       }, 500);
     }
       if(timesClicked===2) {
