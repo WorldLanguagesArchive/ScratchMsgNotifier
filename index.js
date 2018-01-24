@@ -199,7 +199,9 @@ function notify(title,body,link) {
 }
 
 function notifyComment(author,content,Id) {
-  var notification = new Notification(author+" commented:", {
+  var timesClicked = 0;
+  var notifTitle = author + " commented:"
+  var notification = new Notification(notifTitle, {
         icon: './images/logo.png',
         body: content + "\n\nClick to mark the message as read and then go to the comment.\nDouble click to mark the message as read.",
     });
