@@ -199,9 +199,7 @@ function notify(title,body,link) {
 
 function notifyComment(author,content,Id) {
   var timesClicked = 0;
-  console.log(author);
-  console.log(typeof(author));
-    var notification = new Notification(author+" commented", {
+    var notification = new Notification(JSON.stringify(author)+" commented:", {
         icon: './images/logo.png',
         body: content,
           });
