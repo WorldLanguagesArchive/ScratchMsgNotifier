@@ -155,7 +155,7 @@ function checkMessages(firstime) {
           document.getElementById("msgNum").innerText = msg;
       }}; // Request loaded
 
-      if(firstime){
+      if(firsttime){
         var apireq = new XMLHttpRequest();
         apireq.open( "GET", 'https://cors-anywhere.herokuapp.com/https://scratch.mit.edu/site-api/comments/user/'+user+'/?' + Math.floor(Date.now()), true);
         apireq.send();
