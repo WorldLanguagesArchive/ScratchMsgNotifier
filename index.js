@@ -199,8 +199,8 @@ function notify(title,body,link) {
 
 function notifyComment(author,content,Id) {
   var timesClicked = 0;
-  var notifTitle = String(author) + " commented"
-  var notification = new Notification(notifTitle, {
+  console.log(author);
+    var notification = new Notification(author+" commented", {
         icon: './images/logo.png',
         body: content,
           });
