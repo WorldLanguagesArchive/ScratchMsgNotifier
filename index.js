@@ -100,7 +100,9 @@ function checkMessages(firstime) {
 
           setFavicon();
 
-          if(msg>document.getElementById("msgNum").innerText && firstime===false) {
+          if(msg>document.getElementById("msgNum").innerText && firstime===false && msg!=="1") notify();
+
+          if(msg==="1" && document.getElementById("msgNum").innerText==="0" && firsttime===false) {
             if(!notifications() && audio()){snd.play();return;}
             if(!notifications()) return;
             var apireq2 = new XMLHttpRequest();
@@ -113,7 +115,7 @@ function checkMessages(firstime) {
                   document.getElementById("parseComments").innerHTML = apireq2.responseText.replace(/src/g, "asdf");
                   var commentsNew = [];
                 var checkDiff = true;
-                for (i = 0; i < document.getElementsByClassName("comment ").length; i++) {
+                for (i = 0; i < commentsOld.length; i++) {
                   commentsNew.push(document.getElementsByClassName("comment ")[i].getAttribute("data-comment-id"));
                     if(commentsOld[i]!==commentsNew[i] && checkDiff) {
                     var commentAgo = ((new Date().getTime()) - new Date(document.getElementsByClassName("comment ")[i].getElementsByClassName("time")[0].getAttribute("title")).getTime())/1000;
@@ -121,9 +123,7 @@ function checkMessages(firstime) {
                     var commentContent = document.getElementsByClassName("content")[i].innerText.replace(/\s\s+/g, ' ').replace(/^ +/gm, '').substring(0,document.getElementsByClassName("content")[i].innerText.replace(/\s\s+/g, ' ').replace(/^ +/gm, '').length-1)
                     var commentID = document.getElementsByClassName("comment ")[i].getAttribute("data-comment-id");
                     if(commentAgo<100 && commentAuthor!==user){
-                      var s = (msg==="0"?"":"s");
-                      if(msg==="1") notifyComment(commentAuthor,commentContent, commentID)
-                      if(msg!=="1") notify("New comment (" + msg + " messages)", commentAuthor+" commented:\n"+commentContent,"https://scratch.mit.edu/messages/")
+                      notifyComment(commentAuthor,commentContent, commentID);
                       checkDiff = false;
                     }
                   } // If there's a new comment
@@ -135,11 +135,10 @@ function checkMessages(firstime) {
               } // If there is a change in the HTML
               else { // If there isn't
                 var s = (msg==="0"?"":"s");
-                notify(msg + ' new Scratch message' + s,"Click to read " + (msg===1?"it":"them") + ".\nDouble click to mark the message" + s + " as read.","https://scratch.mit.edu/messages/")
+                notify();
               }
-
               }}
-           } // If we should notify
+            }
 
           if(msg==="0" && document.getElementById("msgNum").innerText!=="0") {
             document.getElementById("markRead").style.cursor = "not-allowed";
@@ -174,9 +173,9 @@ function checkMessages(firstime) {
 
 function notify(title,body,link) {
   var timesClicked = 0;
-  var notification = new Notification(title, {
+  var notification = new Notification(msg + ' new Scratch message' + s, {
         icon: './images/logo.png',
-        body: body,
+        body: "Click to read " + (msg===1?"it":"them") + ".\nDouble click to mark the message" + s + " as read.",
     });
     setTimeout(function(){notification.close();},notifClose);
     notification.onshow = function(){
@@ -188,7 +187,7 @@ function notify(title,body,link) {
         setTimeout(function() {
           if(timesClicked!==1)return;
           notification.close();
-          openLink(link);
+          openLink("https://scratch.mit.edu/messages/");
       }, 500);
     }
       if(timesClicked===2) {
@@ -200,7 +199,7 @@ function notify(title,body,link) {
 
 function notifyComment(author,content,Id) {
   var timesClicked = 0;
-  var notifTitle = String(author) + " commented:"
+  var notifTitle = String(author) + " commented"
   var notification = new Notification(notifTitle, {
         icon: './images/logo.png',
         body: content,
