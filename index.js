@@ -88,7 +88,7 @@ function notifier() {
 
 } // End notifier
 
-function checkMessages(firstime) {
+function checkMessages(firsttime) {
   var apireq = new XMLHttpRequest();
   apireq.open( "GET", 'https://api.scratch.mit.edu/users/' + user + '/messages/count?' + Math.floor(Date.now()), true);
   apireq.send();
@@ -100,7 +100,7 @@ function checkMessages(firstime) {
 
           setFavicon();
 
-          if(msg>document.getElementById("msgNum").innerText && firstime===false && msg!=="1") notify();
+          if(msg>document.getElementById("msgNum").innerText && firsttime===false && msg!=="1") notify();
 
           if(msg==="1" && document.getElementById("msgNum").innerText==="0" && firsttime===false) {
             if(!notifications() && audio()){snd.play();return;}
@@ -254,7 +254,7 @@ function newUser(msg,firsttime) {
       content: "input",
   })
       .then((value) => {
-        if((value===null|value==='') && firstime!==1){}else{
+        if((value===null|value==='') && firsttime!==1){}else{
       var apireq = new XMLHttpRequest();
       apireq.open( "GET", 'https://api.scratch.mit.edu/users/' + value, true);
       apireq.send();
