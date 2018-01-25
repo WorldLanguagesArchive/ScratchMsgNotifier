@@ -134,7 +134,6 @@ function checkMessages(firsttime) {
                 }
               } // If there is a change in the HTML
               else { // If there isn't
-                var s = (msg==="0"?"":"s");
                 notify();
               }
               }}
@@ -172,6 +171,7 @@ function checkMessages(firsttime) {
 }
 
 function notify(title,body,link) {
+  var s = (msg==="0"?"":"s");
   var timesClicked = 0;
   var notification = new Notification(msg + ' new Scratch message' + s, {
         icon: './images/logo.png',
