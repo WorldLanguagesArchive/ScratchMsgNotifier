@@ -149,6 +149,7 @@ function checkMessages(firsttime) {
             document.getElementById("markRead").style.cursor = "pointer";
           }
 
+          console.log("Updated number");
           document.getElementById("msgNum").innerText = msg;
       }}; // Request loaded
 
