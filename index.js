@@ -79,7 +79,7 @@ function notifier() {
     messagesTab = null;
 
     user = localStorage.getItem("username");
-    notifClose = localStorage.getItem("notifTimeClose")==="0"?Infinity:localStorage.getItem("notifTimeClose")*1000;
+    notifClose = localStorage.getItem("notifTimeClose")==0?Infinity:localStorage.getItem("notifTimeClose")*1000;
     notifications = function() {return Number(localStorage.getItem("notifications"));};
     audio = function() {return Number(localStorage.getItem("sound"));};
 
@@ -141,14 +141,12 @@ function checkMessages(firsttime) {
 
           if(msg==="0" && document.getElementById("msgNum").innerText!=="0") {
             document.getElementById("markRead").style.cursor = "not-allowed";
-            document.getElementById("markRead").children[0].style.color = "gray";
             document.getElementById("msgNum").innerText = msg;
             return;
           }
 
           if(document.getElementById("msgNum").innerText==="0" && msg>0) {
             document.getElementById("markRead").style.cursor = "pointer";
-            document.getElementById("markRead").children[0].style.color = "#25AFF4";
           }
 
           document.getElementById("msgNum").innerText = msg;

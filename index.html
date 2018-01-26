@@ -22,16 +22,16 @@
     <div id="page">
         <div id="notifier" style="display:none;">
             <div class="left" style="margin-left: 2vw; float:left;">
-                <table style="border-collapse:separate; border-spacing:0.3vw;">
+                <table style="border-collapse:separate; border-spacing:0.3vw;background-color:rgba(241,241,241,.75);">
                     <tr>
                         <td><img id="profilepic" style="height:10vh;"></td>
                         <td>
                             <a id="username" onclick="newUser('Enter a new username',0)" style="font-size:4vh;cursor:pointer;color:#25AFF4;"></a>
                             <hr style="border: none; border-bottom: solid 0.2vh #d3d3d3; margin-top: 0vh; margin-bottom: 0.2vh;">
-                            <span style="font-size:2vh;">Click in your username to change it</span></td>
+                            <span style="font-size:2vh;color:black;">Change username | Settings</span></td>
                 </table>
             </div>
-            <div class="right" style="float:right; margin-right: 2vw;">
+            <div class="right" style="float:right; margin-right: 2vw;background-color:rgba(241,241,241,.75)">
                 <span style="cursor:pointer;" title="Enable/disable notifications"><i class="material-icons" id="bellicon" style="font-size:10vh;"></i></span>
                 <span style="cursor:pointer;" title="Enable/disable notification sound"><i class="material-icons" id="soundicon" style="font-size:10vh;"></i></span>
             </div>
@@ -39,7 +39,7 @@
             <center id="centered">
                 <div id="msgNum" style="font-size:40vh;color:#F49D25;">0</div>
                 <a onclick="openLink('https://scratch.mit.edu/messages/')" class="icon" style="cursor:pointer;"><i class="material-icons" style="font-size:15vh;color:#25AFF4;" title="Open messages in new tab">open_in_new</i></a>
-                <a id="markRead" style="cursor:not-allowed;margin-left:5vw;" title="Mark messages as read" class="icon"> <i class="material-icons gray" style="font-size:15vh;color:gray">done_all</i></a>
+                <a id="markRead" style="cursor:not-allowed;margin-left:5vw;" title="Mark messages as read" class="icon"> <i class="material-icons gray" style="font-size:15vh;color:#25AFF4;">done_all</i></a>
             </center>
         </div>
     </div>
