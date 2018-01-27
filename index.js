@@ -98,6 +98,8 @@ function checkMessages(firsttime) {
 
           if(msg===document.getElementById("msgNum").innerText) return;
 
+          if(firsttime===true) document.getElementById("msgNum").innerText = msg;
+
           setFavicon();
 
           if(msg>document.getElementById("msgNum").innerText && firsttime===false && msg!=="1") notify();
@@ -149,7 +151,6 @@ function checkMessages(firsttime) {
             document.getElementById("markRead").style.cursor = "pointer";
           }
 
-          console.log("Updated number");
           document.getElementById("msgNum").innerText = msg;
       }}; // Request loaded
 
