@@ -98,8 +98,6 @@ function checkMessages(firsttime) {
 
           if(msg===document.getElementById("msgNum").innerText) return;
 
-          if(firsttime===true) document.getElementById("msgNum").innerText = msg;
-
           setFavicon();
 
           if(msg>document.getElementById("msgNum").innerText && firsttime===false && msg!=="1") notify();
@@ -154,15 +152,15 @@ function checkMessages(firsttime) {
           document.getElementById("msgNum").innerText = msg;
       }}; // Request loaded
 
-      if(firsttime){
-        var apireq = new XMLHttpRequest();
-        apireq.open( "GET", 'https://cors-anywhere.herokuapp.com/https://scratch.mit.edu/site-api/comments/user/'+user+'/?' + Math.floor(Date.now()), true);
-        apireq.send();
-        apireq.onreadystatechange = function() {
-          if (apireq.readyState === 4 && apireq.status === 200) {
-            commentsOldHTML = apireq.responseText.replace(/\s/g, '')
+      if(firsttime) {
+        var apireq2 = new XMLHttpRequest();
+        apireq2.open( "GET", 'https://cors-anywhere.herokuapp.com/https://scratch.mit.edu/site-api/comments/user/'+user+'/?' + Math.floor(Date.now()), true);
+        apireq2.send();
+        apireq2.onreadystatechange = function() {
+          if (apireq2.readyState === 4 && apireq2.status === 200) {
+            commentsOldHTML = apireq2.responseText.replace(/\s/g, '')
             commentsOld = [];
-            document.getElementById("parseComments").innerHTML = apireq.responseText.replace(/src/g, "asdf");
+            document.getElementById("parseComments").innerHTML = apireq2.responseText.replace(/src/g, "asdf");
             for (i = 0; i < document.getElementsByClassName("comment ").length; i++) {
               commentsOld.push(document.getElementsByClassName("comment ")[i].getAttribute("data-comment-id"));
             }
