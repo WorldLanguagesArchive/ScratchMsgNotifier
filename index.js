@@ -29,7 +29,7 @@ newUser("Thanks! Now, enter your username and we're done.",1);
 
 function notifier() {
 
-    document.getElementById("notifier").style.display = "block";
+    document.getElementById("notifier").style.display = "";
 
     if(localStorage.getItem("notifications")==="1") {
         document.getElementById("bellicon").innerText = "notifications_active";

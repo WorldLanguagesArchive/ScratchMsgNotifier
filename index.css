@@ -6,10 +6,26 @@
 
 body, html {
 	font-family: Montserrat;
-	background-color: #FFFFFF;
+	background-color: #F1F1F1;
 	margin: 0px;
 	height: 100%;
+	overflow-y: hidden;
  }
+
+ * {
+   margin: 0;
+ }
+
+ #page {
+	 padding-top: 2vh;
+	 height: 100%;
+ }
+
+#footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
 
 #pageTitle {
 	width: 100%;
