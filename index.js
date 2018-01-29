@@ -65,7 +65,7 @@ function notifier() {
     messagesTab = null;
 
     user = localStorage.getItem("username");
-    notifClose = localStorage.getItem("notifTimeClose")==0?Infinity:localStorage.getItem("notifTimeClose")*1000;
+    notifClose = localStorage.getItem("notifTimeClose")===0||localStorage.getItem("notifTimeClose")===null?Infinity:localStorage.getItem("notifTimeClose")*1000;
     notifications = function() {return Number(localStorage.getItem("notifications"));};
     audio = function() {return Number(localStorage.getItem("sound"));};
 
