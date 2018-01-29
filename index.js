@@ -151,9 +151,9 @@ function notify(title,body,link) {
     }
     if(!notifications()) return;
     var s = (msg==="1"?"":"s");
-    var notification = new Notification(msg + ' new Scratch message' + s, {
+    var notification = new Notification(msg + ' unread Scratch message' + s, {
         icon: './images/logo.png',
-        body: "Click to read " + (msg==="1"?"it":"them"),
+        body: "Click to read " + (msg==="1"?"it":"them") + ".",
     });
     setTimeout(function(){notification.close();},notifClose);
     notification.onshow = function(){
