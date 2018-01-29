@@ -11,8 +11,7 @@ function setup() {
         closeOnClickOutside: false,
     })
         .then((value) => {
-        //if(Notification.permission==="granted") {
-        if(1===1) {
+        if(Notification.permission==="granted") {
             enterUsername();
         }
         else {setup();}

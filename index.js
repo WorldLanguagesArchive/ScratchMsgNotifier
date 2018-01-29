@@ -151,7 +151,7 @@ function notify(title,body,link) {
     var s = (msg==="1"?"":"s");
     var notification = new Notification(msg + ' new Scratch message' + s, {
         icon: './images/logo.png',
-        body: "Click to read " + (msg===1?"it":"them") + ".\nDouble click to mark the message" + s + " as read.",
+        body: "Click to read " + (msg==="1"?"it":"them"),
     });
     setTimeout(function(){notification.close();},notifClose);
     notification.onshow = function(){

@@ -59,10 +59,15 @@
                 <div id="msgNum" style="font-size:40vh;color:#F49D25;font-weight:600;padding-top:7vh;">0</div>
               </center>
         </div>
-        <div id="footer" style="font-size:3vh;color:white;padding-bottom: 2vh;margin-left: 2vw;">Made by World <img style="height:3vh;" src="https://cdn2.scratch.mit.edu/get_image/user/4648559_100x100.png"> Languages with ❤️</div>
+        <div id="footer" style="font-size:3vh;color:white;padding-bottom:2vh;">
+          <span style="float:left;margin-left:2vw;">Made by <a onclick="window.open('https://scratch.mit.edu/users/World_Languages/');" style="cursor:pointer;">World <img style="height:3vh;" src="https://cdn2.scratch.mit.edu/get_image/user/4648559_100x100.png"> Languages</a> with ❤️</span>
+          <span style="float:right;margin-right:2vw;cursor:pointer;" onclick="swal(document.getElementById('notes').innerText);">Notes</span>
     </div>
 
     <div id="parseComments" style="display:none;"></div>
+    <div id="notes" style="display:none;">Notes go here :)</div>
+
+  </div>
 
 </body>
 
