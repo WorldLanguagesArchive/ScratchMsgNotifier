@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./index.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="./index.js"></script>
+    <script src="./setup.js"></script>
     <script src="./getsound.js"></script>
     <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
     <script src="./favico-0.3.10.min.js"></script>
@@ -21,13 +22,11 @@
       notifyButton: {
         enable: false,
       },
+      welcomeNotification: {
+          disable: true
+      },
     });
   });
-  OneSignal.push(["init", {
-    welcomeNotification: {
-        disable: true
-    }
-}]);
 </script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -46,9 +45,9 @@
                     <tr>
                         <td><img id="profilepic" style="height:10vh;"></td>
                         <td>
-                            <a id="username" onclick="newUser('Enter a new username',0)" style="font-size:4vh;cursor:pointer;color:#25AFF4;"></a>
+                            <span id="username" style="font-size:4vh;color:#25AFF4;"></span>
                             <hr style="border: none; border-bottom: solid 0.2vh #d3d3d3; margin-top: 0vh; margin-bottom: 0.2vh;">
-                            <span style="font-size:2vh;color:black;">Change username | Settings</span></td>
+                            <span style="font-size:2vh;color:black;"><a onclick="newUser();" style="cursor:pointer;text-decoration:underline;">Change username</a> | Settings</span></td>
                 </table>
             </div>
             <div class="right" style="float:right; margin-right: 2vw;background-color:rgba(241,241,241,.75);">
@@ -57,10 +56,8 @@
             </div>
             <hr style="height:10vh;visibility:hidden;">
             <center id="centered">
-                <div id="msgNum" style="font-size:40vh;color:#F49D25;font-weight:600;">0</div>
-                <a onclick="openLink('https://scratch.mit.edu/messages/')" class="icon" style="cursor:pointer;font-weight:500;"><i class="material-icons" style="font-size:15vh;color:#F1F1F1;" title="Open messages in new tab">open_in_new</i></a>
-                <a id="markRead" style="cursor:not-allowed;margin-left:5vw;font-weight:500;" title="Mark messages as read" class="icon"> <i class="material-icons gray" style="font-size:15vh;color:#F1F1F1;">done_all</i></a>
-            </center>
+                <div id="msgNum" style="font-size:40vh;color:#F49D25;font-weight:600;padding-top:7vh;">0</div>
+              </center>
         </div>
         <div id="footer" style="font-size:3vh;color:white;padding-bottom: 2vh;margin-left: 2vw;">Made by World <img style="height:3vh;" src="https://cdn2.scratch.mit.edu/get_image/user/4648559_100x100.png"> Languages with ❤️</div>
     </div>
