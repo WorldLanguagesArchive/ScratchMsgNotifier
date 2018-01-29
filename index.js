@@ -143,11 +143,11 @@ function checkMessages(firsttime) {
 }
 
 function notify(title,body,link) {
-    if(!notifications&&audio()){
+    if(!notifications()&&audio()){
         snd.play();
         return;
     }
-    if(!notifications) return;
+    if(!notifications()) return;
     var s = (msg==="1"?"":"s");
     var notification = new Notification(msg + ' new Scratch message' + s, {
         icon: './images/logo.png',
