@@ -11,8 +11,10 @@ function notifier() {
 
     document.ondblclick  = function(click){
         var element = click.path[0].id;
-        if(element==="msgNum" || element==="notifier") openLink("https://scratch.mit.edu/messages/");
-        window.getSelection().removeAllRanges();
+        if(element==="msgNum" || element==="notifier" || element==="page") {
+          window.getSelection().removeAllRanges();
+          openLink("https://scratch.mit.edu/messages/");
+      }
     };
 
     document.getElementById("notifier").style.display = "";
@@ -141,11 +143,11 @@ function checkMessages(firsttime) {
 }
 
 function notify(title,body,link) {
-    if(!notification()&&audio()){
+    if(!notifications&&audio()){
         snd.play();
         return;
     }
-    if(!notification()) return;
+    if(!notifications) return;
     var s = (msg==="1"?"":"s");
     var notification = new Notification(msg + ' new Scratch message' + s, {
         icon: './images/logo.png',
