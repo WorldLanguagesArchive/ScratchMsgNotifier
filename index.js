@@ -12,6 +12,7 @@ function notifier() {
     document.ondblclick  = function(click){
         var element = click.path[0].id;
         if(element==="msgNum" || element==="notifier") openLink("https://scratch.mit.edu/messages/");
+        window.getSelection().removeAllRanges();
     };
 
     document.getElementById("notifier").style.display = "";
