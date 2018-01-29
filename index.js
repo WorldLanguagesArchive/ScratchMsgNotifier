@@ -9,6 +9,8 @@ function main() {
 
 function notifier() {
 
+    setTimeout(function(){location.reload();},1000*60*60*12); // Refresh after 12 hours
+
     document.ondblclick  = function(click){
         var element = click.path[0].id;
         if(element==="msgNum" || element==="notifier" || element==="page") {
@@ -165,7 +167,7 @@ function notify(title,body,link) {
 
 function notifyComment(author,content,Id) {
     var timesClicked = 0;
-    var notification = new Notification(JSON.stringify(author)+" commented:", {
+    var notification = new Notification(JSON.stringify(author).slice(1,-1)+" commented:", {
         icon: './images/logo.png',
         body: content,
     });
