@@ -108,8 +108,9 @@ function checkMessages(firsttime) {
                                     var commentAuthor = document.getElementsByClassName("comment ")[i].getElementsByTagName("a")[0].getAttribute("data-comment-user");
                                     var commentContent = document.getElementsByClassName("content")[i].innerText.replace(/\s\s+/g, ' ').replace(/^ +/gm, '').substring(0,document.getElementsByClassName("content")[i].innerText.replace(/\s\s+/g, ' ').replace(/^ +/gm, '').length-1);
                                     var commentID = document.getElementsByClassName("comment ")[i].getAttribute("data-comment-id");
+                                    var actorPic = document.getElementsByClassName("comment ")[i].getElementsByTagName("img")[0].getAttribute("asdf");
                                     if(commentAgo<100 && commentAuthor!==user){
-                                        notifyComment(commentAuthor,commentContent, commentID);
+                                        notifyComment(commentAuthor,commentContent, commentID, actorPic);
                                         checkDiff = false;
                                     }
                                 } // If there's a new comment
@@ -165,10 +166,10 @@ function notify(title,body,link) {
     };
 }
 
-function notifyComment(author,content,Id) {
+function notifyComment(author,content,Id,profilePic) {
     var timesClicked = 0;
-    var notification = new Notification(JSON.stringify(author).slice(1,-1)+" commented:", {
-        icon: './images/logo.png',
+    var notification = new Notification(JSON.stringify(author).slice(1,-1), {
+        icon: profilePic,
         body: content,
     });
     setTimeout(function(){notification.close();},notifClose);
