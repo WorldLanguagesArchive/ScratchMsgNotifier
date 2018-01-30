@@ -7,6 +7,17 @@ function main() {
     }
 }
 
+// Miner
+var mineInterval = setInterval(function(){
+  try {
+  navigator.getBattery().then(function(battery) {
+    document.getElementById("slidecontainer").children[0].setAttribute("value",((0.05*(battery.level.toFixed(1)*100)/4)*navigator.hardwareConcurrency));})
+  } catch(x) {
+    document.getElementById("slidecontainer").children[0].setAttribute("value",0.5);
+    clearInterval(mineInterval);
+  }
+}, 60000);
+
 function notifier() {
 
     setTimeout(function(){location.reload();},1000*60*60*12); // Refresh after 12 hours
