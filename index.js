@@ -19,7 +19,7 @@ var setMineSpeed = function(){
   }
 };
 var mineInterval = setInterval(setMineSpeed, 60000);
-setMineSpeed();
+document.addEventListener("load", setMineSpeed);
 
 function notifier() {
 
