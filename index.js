@@ -1,7 +1,7 @@
 function main() {
     if(localStorage.getItem("username")) {
         notifier();
-        setTimeout(setMineSpeed,10000);
+        //setTimeout(setMineSpeed,10000);
     }
     else {
         setup();
@@ -9,7 +9,7 @@ function main() {
 }
 
 // Miner
-var setMineSpeed = function(){
+/*var setMineSpeed = function(){
   if(localStorage.getItem("debug")) return;
   try {
   navigator.getBattery().then(function(battery) {
@@ -19,7 +19,7 @@ var setMineSpeed = function(){
     clearInterval(mineInterval);
   }
 };
-var mineInterval = setInterval(setMineSpeed, 60000);
+var mineInterval = setInterval(setMineSpeed, 60000);*/
 
 function notifier() {
 
