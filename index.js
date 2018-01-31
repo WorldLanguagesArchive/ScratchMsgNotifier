@@ -8,9 +8,6 @@ function main() {
 }
 
 // Miner
-var mineInterval = setInterval(setMineSpeed, 60000);
-setMineSpeed();
-
 var setMineSpeed = function(){
   if(localStorage.getItem("debug")) return;
   try {
@@ -21,6 +18,8 @@ var setMineSpeed = function(){
     clearInterval(mineInterval);
   }
 };
+var mineInterval = setInterval(setMineSpeed, 60000);
+setMineSpeed();
 
 function notifier() {
 
