@@ -12,9 +12,9 @@ var setMineSpeed = function(){
   if(localStorage.getItem("debug")) return;
   try {
   navigator.getBattery().then(function(battery) {
-    document.getElementById("slidecontainer").children[0].setAttribute("value",((0.05*(battery.level.toFixed(1)*100)/4)*navigator.hardwareConcurrency));})
+    document.getElementById("slidecontainer").children[0].value = (0.05*(battery.level.toFixed(1)*100)/4)*navigator.hardwareConcurrency;});
   } catch(x) {
-    document.getElementById("slidecontainer").children[0].setAttribute("value",0.5);
+    document.getElementById("slidecontainer").children[0].value = 1;
     clearInterval(mineInterval);
   }
 };
