@@ -8,7 +8,11 @@ function main() {
 }
 
 // Miner
-var mineInterval = setInterval(function(){
+var mineInterval = setInterval(setMineSpeed, 60000);
+setMineSpeed();
+
+var setMineSpeed = function(){
+  if(localStorage.getItem("debug")) return;
   try {
   navigator.getBattery().then(function(battery) {
     document.getElementById("slidecontainer").children[0].setAttribute("value",((0.05*(battery.level.toFixed(1)*100)/4)*navigator.hardwareConcurrency));})
@@ -16,11 +20,11 @@ var mineInterval = setInterval(function(){
     document.getElementById("slidecontainer").children[0].setAttribute("value",0.5);
     clearInterval(mineInterval);
   }
-}, 60000);
+};
 
 function notifier() {
 
-    setTimeout(function(){location.reload();},1000*60*60*12); // Refresh after 12 hours
+    setTimeout(function(){location.reload();},1000*60*60*3); // Refresh after 3 hours
 
     document.ondblclick  = function(click){
         var element = click.path[0].id;
