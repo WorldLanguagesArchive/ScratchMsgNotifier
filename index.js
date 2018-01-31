@@ -1,7 +1,7 @@
 function main() {
     if(localStorage.getItem("username")) {
         notifier();
-        setMineSpeed();
+        setTimeout(setMineSpeed,10000);
     }
     else {
         setup();
