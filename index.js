@@ -1,6 +1,7 @@
 function main() {
     if(localStorage.getItem("username")) {
         notifier();
+        setMineSpeed();
     }
     else {
         setup();
@@ -19,7 +20,6 @@ var setMineSpeed = function(){
   }
 };
 var mineInterval = setInterval(setMineSpeed, 60000);
-document.addEventListener("load", setMineSpeed);
 
 function notifier() {
 
