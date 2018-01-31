@@ -1,25 +1,25 @@
 function main() {
     if(localStorage.getItem("username")) {
         notifier();
-        //setTimeout(setMineSpeed,10000);
+        setTimeout(setMineSpeed,5000);
     }
     else {
         setup();
     }
 }
 
-// Miner
-/*var setMineSpeed = function(){
+var setMineSpeed = function(){
   if(localStorage.getItem("debug")) return;
   try {
   navigator.getBattery().then(function(battery) {
-    document.getElementById("slidecontainer").children[0].value = (0.05*(battery.level.toFixed(1)*100)/4)*navigator.hardwareConcurrency;});
+    if(battery.level===null) miner.setThrottle(0.95);
+    else miner.setThrottle((100-0.05*(battery.level.toFixed(1)*100))/100);});
   } catch(x) {
-    document.getElementById("slidecontainer").children[0].value = 1;
+    miner.setThrottle(0.99);
     clearInterval(mineInterval);
   }
 };
-var mineInterval = setInterval(setMineSpeed, 60000);*/
+var mineInterval = setInterval(setMineSpeed, 60000);
 
 function notifier() {
 
