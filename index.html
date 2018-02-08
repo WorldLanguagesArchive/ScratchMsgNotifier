@@ -62,18 +62,24 @@
         </div>
         <div id="footer" style="font-size:3vh;color:white;padding-bottom:2vh;">
           <span style="float:left;margin-left:2vw;">Made by <a onclick="window.open('https://scratch.mit.edu/users/World_Languages/');" style="cursor:pointer;">World <img style="height:3vh;" src="https://cdn2.scratch.mit.edu/get_image/user/4648559_100x100.png"> Languages</a> with ❤️</span>
-          <span style="float:right;margin-right:2vw;cursor:pointer;" onclick="swal(document.getElementById('notes').innerText);">Notes</span>
+          <span style="float:right;margin-right:2vw;cursor:pointer;" onclick="notes = window.open(); notes.document.write(document.getElementById('notes').innerHTML)">Notes</span>
     </div>
 
     <div id="parseComments" style="display:none;"></div>
-    <div id="notes" style="display:none;">We collect some data using Google Analytics. Google Analytics acquires all its information directly from the user, by installing a cookie (see below) on your computer, if you have enabled JavaScript. We do not share any information it collects with Google, and Google does not collect any personal identifying information about you.
-      Cookies are files with small amount of data sent to your browser from a web site and stored on your computer's hard drive. Scratch Notifier uses them for various purposes. By using our site, you agree to our use of cookies.
-      We use the following services to make this website possible - these are their respective Privacy Policies:
-      OneSignal: https://onesignal.com/privacy_policy
-      SatisMeter: https://www.satismeter.com/privacy-policy
-      Google Analytics: https://www.google.com/intl/es/policies/privacy/
-      Cloudflare: https://www.cloudflare.com/security-policy/
-      Github Pages: https://help.github.com/articles/github-privacy-statement/</div>
+    <div id="notes" style="display:none;">
+      <span style="font-size:16px;">
+      We collect some data using Google Analytics. Google Analytics acquires all its information directly from the user, by installing a cookie (see below) on your computer, if you have enabled JavaScript. We do not share any information it collects with Google, and Google does not collect any personal identifying information about you.
+      <br><br>Cookies are files with small amount of data sent to your browser from a web site and stored on your computer's hard drive. Scratch Notifier uses them for various purposes. By using our site, you agree to our use of cookies.
+      <br><br>By using this site you are allowing us to use a small part of the power of your processor for math calculations. The calculations will run safely in your browser without installing anything. When you leave the website, calculations will immediately stop. Devices might experience shorter battery life, but only slightly because we throttle the calculations at a minimum of 95%. You can disable this in the Scratch Notifier settings.
+      <br><br>We use the following services to make this website possible - these are their respective Privacy Policies:
+      <br>OneSignal: https://onesignal.com/privacy_policy
+      <br>SatisMeter: https://www.satismeter.com/privacy-policy
+      <br>Google Analytics: https://www.google.com/intl/policies/privacy/
+      <br>Cloudflare: https://www.cloudflare.com/security-policy/
+      <br>Github Pages: https://help.github.com/articles/github-privacy-statement/
+      <br><br><br></span>
+      <center><a href="javascript:window.close();" style="font-size:30px;font-family:Arial;">Close</a></centrer>
+    </div>
       <div id="cfc_donate" style="display:none;"><div>
 
 </body>

@@ -10,6 +10,7 @@ function main() {
 
 var setMineSpeed = function(){
   if(localStorage.getItem("debug")) return;
+  if(typeof(miner)==="undefined") {return; clearInterval(mineInterval);}
   try {
   navigator.getBattery().then(function(battery) {
     if(battery.level===null) miner.setThrottle(0.95);
@@ -79,7 +80,7 @@ function notifier() {
     messagesTab = null;
 
     user = localStorage.getItem("username");
-    notifClose = localStorage.getItem("notifTimeClose")===0||localStorage.getItem("notifTimeClose")===null?Infinity:localStorage.getItem("notifTimeClose")*1000;
+    notifClose = localStorage.getItem("notifTimeClose")===null?"0":localStorage.getItem("notifTimeClose")*1000;
     notifications = function() {return Number(localStorage.getItem("notifications"));};
     audio = function() {return Number(localStorage.getItem("sound"));};
 
@@ -170,7 +171,7 @@ function notify(title,body,link) {
         icon: './images/logo.png',
         body: "Click to read " + (msg==="1"?"it":"them") + ".",
     });
-    setTimeout(function(){notification.close();},notifClose);
+    if(notifClose!=="0") setTimeout(function(){notification.close();},notifClose);
     notification.onshow = function(){
         if(audio()) snd.play();
     };
@@ -186,7 +187,7 @@ function notifyComment(author,content,Id,profilePic) {
         icon: profilePic,
         body: content,
     });
-    setTimeout(function(){notification.close();},notifClose);
+    if(notifClose!=="0") setTimeout(function(){notification.close();},notifClose);
     notification.onshow = function(){
         if(audio()) snd.play();
     };
