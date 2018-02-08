@@ -160,12 +160,14 @@ function checkMessages(firsttime) {
     }
 }
 
-function notify(title,body,link) {
+function notify() {
     if(!notifications()&&audio()){
         snd.play();
         return;
     }
     if(!notifications()) return;
+    ga('set', 'page', '/#notify');
+    ga('send', 'pageview');
     var s = (msg==="1"?"":"s");
     var notification = new Notification(msg + ' unread Scratch message' + s, {
         icon: './images/logo.png',
@@ -176,12 +178,16 @@ function notify(title,body,link) {
         if(audio()) snd.play();
     };
     notification.onclick = function() {
+        ga('set', 'page', '/#click');
+        ga('send', 'pageview');
         openLink("https://scratch.mit.edu/messages/");
         notification.close();
     };
 }
 
 function notifyComment(author,content,Id,profilePic) {
+    ga('set', 'page', '/#notifyComment');
+    ga('send', 'pageview');
     var timesClicked = 0;
     var notification = new Notification(JSON.stringify(author).slice(1,-1), {
         icon: profilePic,
@@ -192,6 +198,8 @@ function notifyComment(author,content,Id,profilePic) {
         if(audio()) snd.play();
     };
     notification.onclick = function() {
+        ga('set', 'page', '/#click');
+        ga('send', 'pageview');
         notification.close();
         openLink("https://scratch.mit.edu/messages/");
         closeTabOnClear(function(){messagesTab.location.replace("https://scratch.mit.edu/users/"+user+"/#comments-"+Id);});
