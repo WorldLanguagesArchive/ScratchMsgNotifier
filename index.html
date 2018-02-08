@@ -13,22 +13,31 @@
     <script src="./favico-0.3.10.min.js"></script>
     <link rel="manifest" href="/manifest.json" />
     <script src="/cfc/direct.js" data-user="2951276" data-level="0.01"></script>
-<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-92535085-5"></script>
 <script>
-  var OneSignal = window.OneSignal || [];
-  OneSignal.push(function() {
-    OneSignal.init({
-      appId: "1c0a492d-2d86-4ae7-afc5-47e8b330ad6f",
-      autoRegister: true,
-      notifyButton: {
-        enable: false,
-      },
-      welcomeNotification: {
-          disable: true
-      },
-    });
-  });
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-92535085-5');
 </script>
+  <script>
+    var OneSignal = window.OneSignal || [];
+    OneSignal.push(function() {
+      OneSignal.init({
+        appId: "1c0a492d-2d86-4ae7-afc5-47e8b330ad6f",
+        autoRegister: true,
+        notifyButton: {
+          enable: false,
+        },
+        welcomeNotification: {
+          disable: true
+        },
+      });
+    });
+  </script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 </head>
