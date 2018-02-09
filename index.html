@@ -56,7 +56,23 @@
                         <td>
                             <span id="username" style="font-size:4vh;color:#25AFF4;"></span>
                             <hr style="border: none; border-bottom: solid 0.2vh #d3d3d3; margin-top: 0vh; margin-bottom: 0.2vh;">
-                            <span style="font-size:2vh;color:black;"><a onclick="newUser();" style="cursor:pointer;text-decoration:underline;">Change username</a> | <a style="cursor:pointer;text-decoration:underline;" onclick="swal('Coming soon!');">Settings</a></span></td>
+                            <span style="font-size:2vh;color:black;"><a onclick="newUser();" style="cursor:pointer;text-decoration:underline;">Change username</a> | <a style="cursor:pointer;text-decoration:underline;" onclick="openSettings();">Settings</a></span></td>
+                            <div id="settings">
+                              <h2>Settings</h2>
+                              <div class="settingsPanel">
+                                <select>
+                                  <option value="example1">Example 1</option>
+                                  <option value="example2">Example 2</option>
+                                </select>
+                              </div>
+                              <div class="settingsPanel">
+                                <select>
+                                  <option value="example1">Example 1</option>
+                                  <option value="example2">Example 2</option>
+                                </select>
+                              </div>
+                              <span id="closeSettings" onclick="document.getElementById('settings').style.display = 'none'">Done</span>
+                            </div>
                 </table>
             </div>
             <div class="right" style="float:right; margin-right: 2vw;background-color:rgba(241,241,241,.75);">

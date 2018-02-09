@@ -272,3 +272,7 @@ function closeTabOnClear(ondone) {
             }
         }};
 }
+
+function openSettings() {
+  document.getElementById('settings').style.display = 'block';
+}

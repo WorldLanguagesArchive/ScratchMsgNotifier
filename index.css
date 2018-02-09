@@ -41,3 +41,40 @@ body, html {
     position: relative;
     width: 50vw;
 }
+#settings {
+	display: none;
+	position: absolute;
+	top: 15%;
+	left: 15%;
+	width: 70%;
+	height: 70%;
+	padding: 16px;
+	border-radius: 10px;
+	background-color: white;
+	z-index: 1002;
+	overflow: auto;
+}
+#closeSettings {
+	cursor: pointer;
+	background-color: #4CC6E3;
+	padding: 10px;
+	padding-right: 15px;
+	padding-left: 15px;
+	border-radius: 5px;
+	color: white;
+	position: absolute;
+	bottom: 15px;
+	right: 15px;
+}
+.settingsPanel {
+	width: 40%;
+	margin-top: 10px;
+	display: inline-block;
+	padding:10px;
+	height: 80%;
+}
+.settingsPanel:first-of-type {
+	 border-right-style: solid;
+	 border-right-width: 2px;
+	 border-right-color: gray;
+}
