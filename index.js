@@ -65,7 +65,8 @@ function notifier() {
     checkMessages(true);
 
     notificationsEnabled = function() {
-      return Number(localStorage.getItem("notificationsEnabled"));
+      if(!localStorage.getItem("notificationsEnabled")) return 1;
+      else return Number(localStorage.getItem("notificationsEnabled"));
     }
 
     notifications = function() {
