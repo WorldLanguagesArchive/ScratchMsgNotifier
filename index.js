@@ -71,7 +71,7 @@ function notifier() {
 
     notifications = function() {
       if(!notificationsEnabled()) return 0;
-      if(sessionStorage.getItem("notifications")) return (sessionStorage.getItem("notifications")===null ? 1 : Number(sessionStorage.getItem("notifications")));
+      else return (sessionStorage.getItem("notifications")===null ? 1 : Number(sessionStorage.getItem("notifications")));
     };
 
     if(notifications()) {
