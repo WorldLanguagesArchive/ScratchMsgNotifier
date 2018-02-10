@@ -371,6 +371,7 @@ swal({
   text: "Easy.",
   icon: "info",
   button: "Got it!",
+  closeOnClickOutside: false,
 })
 .then(() => {
 swal({
@@ -386,7 +387,6 @@ swal({
   text: "Just keep this tab pinned and open, and enjoy the notifications! :)",
   icon: "success",
   button: "Let's go!",
-  closeOnClickOutside: false,
 });
 });
 });});
