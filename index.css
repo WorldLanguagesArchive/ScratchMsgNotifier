@@ -6,7 +6,8 @@
 
 body, html {
 	font-family: Montserrat;
-	background-color: #F1F1F1;
+	font-size:1vh;
+	background-color: black;
 	margin: 0px;
 	height: 100%;
 	overflow-y: hidden;
@@ -40,4 +41,44 @@ body, html {
     margin: auto;
     position: relative;
     width: 50vw;
+}
+
+#settings {
+	display: none;
+	position: absolute;
+	top: 25%;
+	left: 30%;
+	width: 35%;
+	padding: 5vh;
+	padding-bottom: 10vh;
+	border-radius: 2vw;
+	background-color: #001E5B;
+	color: white;
+	z-index: 1002;
+	overflow: auto;
+}
+#saveSettings {
+	cursor: pointer;
+	background-color: #4CC6E3;
+	padding: 2vh;
+	padding-right: 2vw;
+	padding-left: 2vw;
+	border-radius: 1vw;
+	color: white;
+	position: absolute;
+	bottom: 1vw;
+	right: 1vw;
+}
+.settingsPanel {
+	width: 90%;
+	margin-top: 2vh;
+	display: inline-block;
+	height: 80%;
+}
+.settingsNote {
+	font-size: 1.5vh;
+	color: yellow;
+	margin-left:2.5vh;
+	box-decoration-break: clone;
+	-webkit-box-decoration-break: clone;
 }

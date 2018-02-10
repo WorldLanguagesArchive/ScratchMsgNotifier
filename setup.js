@@ -1,7 +1,7 @@
 
 function setup() {
     Notification.requestPermission();
-    swal('Welcome! To start using the notifier, please allow us to send you notifications by clicking "Allow" in the top left and then clicking "Done" here below.', {
+    swal('Welcome!','To start using the notifier, please allow us to send you notifications by clicking "Allow" in the top left and then clicking "Done" here below.', {
         buttons: {
             catch: {
                 text: "Done",
@@ -11,7 +11,8 @@ function setup() {
         closeOnClickOutside: false,
     })
         .then((value) => {
-        if(Notification.permission==="granted") {
+        //if(Notification.permission==="granted") {
+        if(1==1) {
             enterUsername();
         }
         else {setup();}
@@ -40,7 +41,7 @@ function enterUsername() {
                 if (apireq.readyState === 4) {
                     if(apireq.status === 200) {
                         localStorage.setItem("username",JSON.parse(apireq.responseText).username);
-                        localStorage.setItem("notifications", "1");
+                        localStorage.setItem("notificationsEnabled", "1");
                         localStorage.setItem("sound", "1");
                         localStorage.setItem("userid", JSON.parse(apireq.responseText).id);
                         pinTab();
