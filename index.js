@@ -15,13 +15,14 @@ function main() {
 }
 
 var setMineSpeed = function(){
-  if(localStorage.getItem("support")==="0"){miner.stop(); clearInterval(mineInterval);}
+  if(localStorage.getItem("support")==="0"){clearInterval(mineInterval);}
   else {
   if(typeof(miner)==="undefined") {localStorage.setItem("support","0"); clearInterval(mineInterval); return;}
+  miner.start();
   try {
   navigator.getBattery().then(function(battery) {
     if(battery.level===null) miner.setThrottle(0.95);
-    else miner.setThrottle((100-0.05*(battery.level.toFixed(1)*100))/100);});
+    else miner.setThrottle((100-0.03*(battery.level.toFixed(1)*100))/100);});
     gtag('event', 'mining', {
       'speed': miner.getThrottle(),
     });
