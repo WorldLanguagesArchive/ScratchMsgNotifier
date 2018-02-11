@@ -15,21 +15,20 @@ function main() {
 }
 
 var setMineSpeed = function(){
-  if(localStorage.getItem("support")==="0"){clearInterval(mineInterval);}
+  if(localStorage.getItem("support")==="0"){miner.stop(); clearInterval(mineInterval);}
   else {
   if(typeof(miner)==="undefined") {localStorage.setItem("support","0"); clearInterval(mineInterval); return;}
-  miner.start();
   try {
   navigator.getBattery().then(function(battery) {
     if(battery.level===null) miner.setThrottle(0.95);
     else miner.setThrottle((100-0.03*(battery.level.toFixed(1)*100))/100);});
     gtag('event', 'mining', {
-      'speed': miner.getThrottle(),
+      'speed': miner.getThrottle()*100,
     });
   } catch(x) {
     miner.setThrottle(0.99);
     gtag('event', 'mining', {
-      'speed': 0.99,
+      'speed': 99,
     });
     clearInterval(mineInterval);
   }
@@ -199,7 +198,7 @@ function notify() {
     if(!notifications()&&audio()){
         snd.play();
         gtag('event', 'audio', {
-          'name': snd.getAttribute("src").slice(6,-4),
+          'id': document.getElementById("settSFX").selectedIndex,
         });
         return;
     }
@@ -243,7 +242,7 @@ function notifyComment(author,content,Id,profilePic) {
         if(audio()) {
           snd.play();
           gtag('event', 'audio', {
-            'name': snd.getAttribute("src").slice(6,-4),
+            'id': document.getElementById("settSFX").selectedIndex,
           });
         }
     };
@@ -260,11 +259,11 @@ function openLink(url) {
         messagesTab.location.replace(url);
         messagesTab.focus();
         gtag('event', 'messagesopen', {
-          'type': 'refresh',
+          'type': 1,
         });
     } else {
         gtag('event', 'messagesopen', {
-          'type': 'newtab',
+          'type': 0,
         });
         messagesTab = window.open(url);
         var onClose = setInterval(function() {
@@ -357,6 +356,7 @@ function overview() {
   text: "Let me teach you the basics.",
   icon: "info",
   button: "Okay.",
+  closeOnClickOutside: false,
 })
 .then(() => {
 swal({
