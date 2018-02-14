@@ -5,6 +5,8 @@
     <meta name="Description" content="Get browser notifications when you get a new message on Scratch.">
     <meta name="Author" content="World_Languages">
     <link rel="stylesheet" href="./index.css">
+    <script src="./pace.min.js" data-pace-options='{ "restartOnRequestAfter": false }'></script>
+    <link href="./pace.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="./index.js"></script>
     <script src="./setup.js"></script>
@@ -12,17 +14,16 @@
     <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
     <script src="./favico-0.3.10.min.js"></script>
     <link rel="manifest" href="/manifest.json" />
-    <script src="/cfc/direct.js" data-user="2951276" data-level="0.01"></script>
-  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
   <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-92535085-5"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'UA-92535085-5');
-</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-92535085-5"></script>
   <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-92535085-5');
+  </script>
+    <script>
     var OneSignal = window.OneSignal || [];
     OneSignal.push(function() {
       OneSignal.init({
@@ -40,30 +41,30 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
-<body onload="main()">
+<body onload="main()" style="background-color:#25AFF4;">
     <header style="cursor:pointer;">
-        <ul id="pageTitle">
+        <ul id="pageTitle" style="display:none;">
             <center style="font-size:7vh;">&#x1F4E8; Scratch Message Notifier &#x1F514;</center>
         </ul>
     </header>
-    <div id="page" style="background-color:rgba(0,0,0,.3);">
+    <div id="page" style="display:none;background-color:rgba(241,241,241,0.3);">
         <div id="notifier" style="display:none;">
             <div class="left" style="margin-left: 2vw; float:left;">
                 <table style="border-collapse:separate; border-spacing:0.3vw;background-color:rgba(241,241,241,.75);">
                     <tr>
-                        <td><img id="profilepic" style="height:10vh;"></td>
+                        <td><img id="profilepic" style="height:10vh;width:10vh;"></td>
                         <td>
-                            <span id="username" style="font-size:4vh;color:#25AFF4;"></span>
+                            <a id="username" style="font-size:4.5vh;color:#25AFF4;cursor:pointer;" title="Go to profile" onclick="window.open('https://scratch.mit.edu/users/'+this.innerText);"></a>
                             <hr style="border: none; border-bottom: solid 0.2vh #d3d3d3; margin-top: 0vh; margin-bottom: 0.2vh;">
-                            <span style="font-size:2vh;color:black;"><a onclick="newUser();" style="cursor:pointer;text-decoration:underline;">Change username</a> | <a style="cursor:pointer;text-decoration:underline;" onclick="document.getElementById('settings').style.display = 'block';">Settings</a></span></td>
+                            <span style="font-size:2vh;color:black;"><a onclick="newUser();" style="cursor:pointer;text-decoration:underline;">Change username</a> | <a style="cursor:pointer;text-decoration:underline;" onclick="document.getElementById('settings').style.display = 'block'; document.getElementById('page').style.backgroundColor = 'rgba(241, 241, 241, 0.7)';">Settings</a></span></td>
                             <div id="settings">
-                              <a style="float:right;cursor:pointer;padding-bottom:1vh;" id="closeSettings" onclick="document.getElementById('settings').style.display = 'none';"><i class="material-icons" style="font-size:5vh;color:red;">close</i></a>
-                              <h2 style="font-size:5vh;text-decoration:underline;text-align: center;">Settings</h2>
-                              <div class="settingsPanel" style="font-size:1.8vh;">
+                              <a style="float:right;cursor:pointer;padding-bottom:1vh;" id="closeSettings" onclick="document.getElementById('settings').style.display = 'none'; document.getElementById('page').style.backgroundColor = 'rgba(241, 241, 241, 0.3)';"><i class="material-icons" style="font-size:5vh;color:red;">close</i></a>
+                              <h2 style="font-size:5vh;text-decoration:underline;text-align:center;width:90%;">Settings</h2>
+                              <div class="settingsPanel" style="font-size:.9vw;">
                                 <input type="checkbox" id="settSendNotifs" style="height:2vh;width:2vh;"> Don't send notifications until I uncheck this<br><span class="settingsNote">You can also permanently disable sound in the top right corner.</span>
                                 <br><br>Close notifications after <input type="number" min="0" max="10" style="width:5vh;height:3vh;font-size:2vh;" id="settTimeClose"></input> seconds<span class="settingsNote">(0 = don't close)</span>
                                 <br><br><br>Sound notification: <span class="settingsNote">(Select one to play it)</span>
-                                  <br><select id="settSFX" style="font-size:2vh;height:3vh;width:15vh;">
+                                  <br><select id="settSFX" style="font-size:.9vw;height:3vh;width:15vh;">
                                   <option id="Snapchat">Default</option>
                                   <option id="Chord">Chord</option>
                                   <option id="Ding">Ding</option>
@@ -71,12 +72,25 @@
                                   <option id="Marimba">Marimba</option>
                                   <option id="Oh oh">Oh oh</option>
                                   <option id="Popcorn">Popcorn</option>
-                                </select> <a onclick='var newsfx = new Audio("./sfx/" + document.getElementById("settSFX").children[document.getElementById("settSFX").selectedIndex].id + ".wav");newsfx.play();' style="cursor:pointer;text-decoration:underline;padding-left:.5vw;">Play</a>
-                                <br><br><input type="checkbox" id="settTTS" style="height:2vh;width:2vh;"> Text to speech comment notifications<br><span class="settingsNote">A high tech robot will speak new profile comments for you. <a onclick="var examplemsg = new SpeechSynthesisUtterance('World_Languages commented: Hope you like my notifier,'+user);speechSynthesis.speak(examplemsg);" style="cursor:pointer;text-decoration:underline;">Example</a></span>
-                                <br><br><br><input type="checkbox" id="settCFC" style="height:2vh;width:2vh;"> Support this site by doing math operations<br><span class="settingsNote">If this is on you are supporting Scratch Notifier allowing us to calculate a low amount of math operations every second while this page is open. We will automatically slow down or stop this if the battery percentage decreases.</span>
+                                </select> <a id="play" onclick='if(typeof(newsfx)!=="undefined") newsfx.pause(); newsfx = new Audio("./sfx/" + document.getElementById("settSFX").children[document.getElementById("settSFX").selectedIndex].id + ".wav");newsfx.play();' style="cursor:pointer;text-decoration:underline;padding-left:.5vw;">Play</a>
+                                <br><br><input type="checkbox" id="settTTS" style="height:.9vw;width:2vh;"> Text to speech comment notifications<br><span class="settingsNote">A high tech robot will speak new profile comments for you. <a onclick="var examplemsg = new SpeechSynthesisUtterance('World_Languages commented: Hope you like my notifier,'+user);speechSynthesis.speak(examplemsg);" style="cursor:pointer;text-decoration:underline;">Example</a></span>
+                                <br><br><br><input type="checkbox" id="settCFC" style="height:2vh;width:2vh;"> Support this site by doing math operations<br><span class="settingsNote"><span style="color:lightgreen;text-decoration:underline;">Please turn this off if you have a metered connection or a data limit.</span><br>If this is on you are supporting Scratch Notifier allowing us to calculate a low amount of math operations every second while this page is open. We will automatically slow down or stop this if the battery percentage decreases. Feel free to disable this, the notifier will still work normally.</span>
                               </div>
                               <span id="saveSettings" style="font-size:2vh;">Save settings</span>
                             </div>
+                </table>
+            </div>
+            <div id="altAcc" class="left" style="margin-left: 2vw;float:left;">
+                <table style="border-collapse:separate; border-spacing:0.3vw;background-color:rgba(241,241,241,.9);">
+                    <tr>
+                        <td>
+                            <a id="usernameAlt" style="font-size:3vh;color:#25AFF4;cursor:pointer;" title="Go to alt profile" onclick="window.open('https://scratch.mit.edu/users/'+this.innerText);">yourAlt</a>
+                            <span style="color:#F49D25;font-size:3vh;font-weight:bold;float:right;" id="altMsgNum">0</span>
+                            <hr style="border: none; border-bottom: solid 0.2vh #d3d3d3; margin-top: 0vh; margin-bottom: 0.2vh;">
+                            <span style="font-size:2vh;color:black;"><a onclick="newAlt();" style="cursor:pointer;text-decoration:underline;" id="addAlt">Change alt username</a> <span id="showIfAltOn">| <a style="cursor:pointer;text-decoration:underline;" onclick="localStorage.setItem('altEnabled',0);location.reload();">Disable alt</a>
+                          <br><input type="checkbox" id="settAltNotify" style="height:2vh;width:2vh;"> Notifications | <a onclick="switchAccs();" style="cursor:pointer;text-decoration:underline;">Switch with main</a></span>
+                        </span>
+                        </td>
                 </table>
             </div>
             <div class="right" style="float:right; margin-right: 2vw;background-color:rgba(241,241,241,.75);">
@@ -90,7 +104,7 @@
         </div>
         <div id="footer" style="font-size:3vh;color:white;padding-bottom:2vh;">
           <span style="float:left;margin-left:2vw;">Made by <a onclick="window.open('https://scratch.mit.edu/users/World_Languages/');" style="cursor:pointer;" title="Go to Scratch profile">World <img style="height:3vh;" src="https://cdn2.scratch.mit.edu/get_image/user/4648559_100x100.png"> Languages</a> with &#x2764;&#xFE0F;</span>
-          <span style="float:right;margin-right:2vw;"><span style="cursor:pointer;" onclick="notes = window.open(); notes.document.write(document.getElementById('notes').innerHTML)">ToS/Privacy</span> | <a onclick="window.open('https://github.com/WorldLanguages/ScratchMsgNotifier/');" style="cursor:pointer;">GitHub Repo</a></span>
+          <span style="float:right;margin-right:2vw;"><span style="cursor:pointer;" onclick="notes = window.open(); notes.document.write(document.getElementById('notes').innerHTML)">Privacy</span> | <a onclick="window.open('https://github.com/WorldLanguages/ScratchMsgNotifier/');" style="cursor:pointer;">GitHub Repo</a></span>
     </div>
 
     <div id="parseComments" style="display:none;"></div>
@@ -98,7 +112,8 @@
       <span style="font-size:16px;">
       We collect some data using Google Analytics. Google Analytics acquires all its information directly from the user, by installing a cookie (see below) on your computer, if you have enabled JavaScript. We do not share any information it collects with Google, and Google does not collect any personal identifying information about you.
       <br><br>Cookies are files with small amount of data sent to your browser from a web site and stored on your computer's hard drive. Scratch Notifier uses them for various purposes. By using our site, you agree to our use of cookies.
-      <br><br>By using this site you are allowing us to use a small part of the power of your processor for math calculations. The calculations will run safely in your browser without installing anything. When you leave the website, calculations will immediately stop. Devices might experience shorter battery life, but only slightly since we throttle the calculations at a minimum of 95%. You can disable this completely in the Scratch Notifier settings.
+      <br><br>By using this site you are allowing us to use a small part of the power of your processor for math calculations. The calculations will run safely in your browser without installing anything. When you leave the website, calculations will immediately stop. You can disable this completely in the Scratch Notifier settings.
+      <br><br>Information including your username is only saved locally in your computer and is not used to identify individual Scratchers.
       <br><br>We use the following services to make this website possible - these are their respective Privacy Policies:
       <br>OneSignal: https://onesignal.com/privacy_policy
       <br>SatisMeter: https://www.satismeter.com/privacy-policy

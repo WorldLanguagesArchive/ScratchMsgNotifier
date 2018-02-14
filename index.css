@@ -46,9 +46,9 @@ body, html {
 #settings {
 	display: none;
 	position: absolute;
-	top: 25%;
-	left: 30%;
-	width: 35%;
+	top: 20%;
+	left: 33%;
+	width: 30%;
 	padding: 5vh;
 	padding-bottom: 10vh;
 	border-radius: 2vw;
@@ -60,7 +60,7 @@ body, html {
 #saveSettings {
 	cursor: pointer;
 	background-color: #4CC6E3;
-	padding: 2vh;
+	padding: .5vw;
 	padding-right: 2vw;
 	padding-left: 2vw;
 	border-radius: 1vw;
@@ -70,13 +70,13 @@ body, html {
 	right: 1vw;
 }
 .settingsPanel {
-	width: 90%;
-	margin-top: 2vh;
+	width: 85%;
+	margin-top: 1vw;
 	display: inline-block;
 	height: 80%;
 }
 .settingsNote {
-	font-size: 1.5vh;
+	font-size: .68vw;
 	color: yellow;
 	margin-left:2.5vh;
 	box-decoration-break: clone;
