@@ -67,5 +67,5 @@ function pinTab(){
   },
   closeOnClickOutside: false,
 })
-.then(() => {window.location="./#overview";location.reload();});
+.then(() => {location.reload();});
 }

