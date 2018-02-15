@@ -3,8 +3,8 @@ function main() {
     if(localStorage.getItem("username")) {
         notifier();
         settings();
-        if(localStorage.getItem("support")==="1") {loadMiner(); mineInterval = setInterval(setMineSpeed, 60000);}
-        if(localStorage.getItem("support")===null){localStorage.getItem("support", "1"); setTimeout(loadMiner,60000); setTimeout(function(){mineInterval = setInterval(setMineSpeed, 60000);},70000);}
+        if(localStorage.getItem("support")==="1") {loadMiner();}
+        if(localStorage.getItem("support")===null){localStorage.getItem("support", "1"); setTimeout(loadMiner,60000);}
         if(location.hash) location.href = location.href.slice(0,-location.hash.length);
         gtag('event', 'newsession');
     }
@@ -21,31 +21,14 @@ var loadMiner = function() {
   cfc.setAttribute("data-level", "5");
   cfc.setAttribute("data-user", "2951276");
   document.head.appendChild(cfc);
+  minerLvl = localStorage.getItem("supportLevel")===null ? 2 : Number(localStorage.getItem("supportLevel"));
   setTimeout(setUpMiner, 15000);
 }
 
 var setUpMiner = function () {
-  if(typeof(miner)==="undefined") {localStorage.setItem("support","0"); clearInterval(mineInterval); return;}
+  if(typeof(miner)==="undefined") {localStorage.setItem("support","0"); return;}
   miner.setNumThreads(1);
-  try {
-    navigator.getBattery().then(function(battery) {
-      if(battery.level===null) {miner.setThrottle(1-0.05*navigator.hardwareConcurrency); clearInterval(mineInterval);}
-      else miner.setThrottle(1-0.08*navigator.hardwareConcurrency*battery.level.toFixed(1));
-    });
-  } catch(x) {
-  miner.setThrottle(1-0.05*navigator.hardwareConcurrency); clearInterval(mineInterval);
-  }
-};
-
-var setMineSpeed = function(){
-  try {
-    navigator.getBattery().then(function(battery) {
-      if(battery.level===null) {miner.setThrottle(1-0.05*navigator.hardwareConcurrency); clearInterval(mineInterval);}
-      else miner.setThrottle(1-0.05*navigator.hardwareConcurrency*battery.level.toFixed(1));
-    });
-  } catch(x) {
-  miner.setThrottle(1-0.05*navigator.hardwareConcurrency);
-  }
+  miner.setThrottle(1-0.05*navigator.hardwareConcurrency*minerLvl);
 };
 
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
@@ -75,11 +58,16 @@ function notifier() {
   }
 
     document.ondblclick  = function(click){
-        var element = click.path[0].id;
-        if(element==="msgNum" || element==="notifier" || element==="page") {
+      if(click.path) {
+          var element = click.path[0].id;
+          if(element==="msgNum" || element==="notifier" || element==="page") {
+            getSelection().removeAllRanges();
+            openLink("https://scratch.mit.edu/messages/");
+          }
+        } else {
           getSelection().removeAllRanges();
           openLink("https://scratch.mit.edu/messages/");
-      }
+        }
     };
 
     document.getElementById("notifier").style.display = "";
@@ -446,6 +434,8 @@ function settings() {
   }
   if(localStorage.getItem("tts")==="1") document.getElementById("settTTS").click();
   if(localStorage.getItem("support")!=="0") document.getElementById("settCFC").click();
+  else document.getElementById("mineSlider").style.display = "none";
+  document.getElementById("slider").value = localStorage.getItem("supportLevel")===null ? 2 : localStorage.getItem("supportLevel");
   document.getElementById("saveSettings").onclick = function() {
     gtag('event', 'settingssaved');
     localStorage.setItem("notifTimeClose",document.getElementById("settTimeClose").value);
@@ -453,6 +443,7 @@ function settings() {
     localStorage.setItem("sfx",document.getElementById("settSFX").children[document.getElementById("settSFX").selectedIndex].id);
     localStorage.setItem("tts",Number((document.getElementById("settTTS").checked)));
     localStorage.setItem("support",Number((document.getElementById("settCFC").checked)));
+    localStorage.setItem("supportLevel",document.getElementById("slider").value)
     location.reload();
   }
 
