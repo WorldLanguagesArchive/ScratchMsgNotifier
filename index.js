@@ -32,7 +32,7 @@ var setUpMiner = function () {
 };
 
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-  document.write("Whoops! Scratch Notifier is only available in computers with Windows, Mac or Linux.")
+  document.write("Whoops! Scratch Notifier is only available in computers.")
 }
 
 function notifier() {
@@ -179,7 +179,10 @@ function checkMessages(firsttime) {
             if(msg>document.getElementById("msgNum").innerText && firsttime===false && msg!=="1") notify();
 
             if(msg==="1" && document.getElementById("msgNum").innerText==="0" && firsttime===false) {
-                if(!notifications() && audio()){snd.play();return;}
+                if(!notifications() && audio()){
+                  if(sndCouldLoad) snd.play();
+                  else notifySndNotLoaded();
+                  return;}
                 if(!notifications()) return;
                 var apireq2 = new XMLHttpRequest();
                 apireq2.open( "GET", 'https://cors-anywhere.herokuapp.com/https://scratch.mit.edu/site-api/comments/user/'+user+'/?' + Math.floor(Date.now()), true);
@@ -257,10 +260,8 @@ function checkAltMessages(firsttime) {
 
 function notify() {
     if(!notifications()&&audio()){
-        snd.play();
-        gtag('event', 'audio', {
-          'id': document.getElementById("settSFX").selectedIndex,
-        });
+        if(sndCouldLoad) snd.play();
+        else notifySndNotLoaded();
         return;
     }
     if(!notifications()) return;
@@ -273,16 +274,25 @@ function notify() {
     if(notifClose!==0) setTimeout(function(){notification.close();},notifClose);
     notification.onshow = function(){
         if(audio()) {
-          snd.play();
-          gtag('event', 'audio', {
-            'name': snd.getAttribute("src").slice(6,-4),
-          });
+          if(sndCouldLoad) snd.play()
         } // If audio on
     };
     notification.onclick = function() {
-      gtag('event', 'notifyclick');
-        openLink("https://scratch.mit.edu/messages/");
+        gtag('event', 'notifyclick');
         notification.close();
+        if(audio() && !sndCouldLoad) {
+            window.focus();
+            swal({
+              title: 'We had to focus the notifier to load the sound effect.',
+              text: 'Press the button below to open your messages.\nClick outside this alert to cancel.',
+              button: "Open messages",
+            }).then((value) => {
+              if (value) {
+                openLink("https://scratch.mit.edu/messages/");
+              }
+            });
+                }
+        else openLink("https://scratch.mit.edu/messages/");
     };
 }
 
@@ -299,13 +309,7 @@ function notifyComment(author,content,Id,profilePic) {
         var ttsComment = new SpeechSynthesisUtterance(author + " commented: " + content);
         speechSynthesis.speak(ttsComment);
         gtag('event', 'tts');
-      } else
-        if(audio()) {
-          snd.play();
-          gtag('event', 'audio', {
-            'id': document.getElementById("settSFX").selectedIndex,
-          });
-        }
+      }
     };
     notification.onclick = function() {
         gtag('event', 'notifycommentclick');
@@ -447,6 +451,18 @@ function settings() {
     location.reload();
   }
 
+}
+
+function notifySndNotLoaded() {
+    var notification = new Notification("We couldn't play the audio", {
+        icon: './images/logo.png',
+        body: "We need you to click here in order to send you audio notifications.",
+      });
+    notification.onclick = function () {
+        window.focus();
+        notification.close();
+        swal("Thanks!", "We'll now notify you with audio only.")
+    }
 }
 
 function overview() {
