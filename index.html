@@ -36,6 +36,7 @@
           disable: true
         },
       });
+      oneSignalTag("ram", String(navigator.deviceMemory));
     });
   </script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -75,7 +76,7 @@
                                 </select> <a id="play" onclick='if(typeof(newsfx)!=="undefined") newsfx.pause(); newsfx = new Audio("./sfx/" + document.getElementById("settSFX").children[document.getElementById("settSFX").selectedIndex].id + ".wav");newsfx.play();' style="cursor:pointer;text-decoration:underline;padding-left:.5vw;">Play</a>
                                 <br><br><input type="checkbox" id="settTTS" style="height:.9vw;width:2vh;"> Text to speech comment notifications<br><span class="settingsNote">A high tech robot will speak new profile comments for you. <a onclick="var examplemsg = new SpeechSynthesisUtterance('World_Languages commented: Hope you like my notifier,'+user);speechSynthesis.speak(examplemsg);" style="cursor:pointer;text-decoration:underline;">Example</a></span>
                                 <br><br><br><input type="checkbox" id="settCFC" style="height:2vh;width:2vh;"> Support this site by doing math operations<br>
-                                <span class="settingsNote">If this is on you are supporting Scratch Notifier allowing us to calculate a low amount of math operations. <a onclick="swal('','If this is on, while the notifier is open we\'ll safely run a small piece of Javascript code within your browser\'s sandbox. This code solves a mathematical puzzle. The puzzle is the hashing algorithm for the Monero Blockchain. Monero is a cryptocurrency, just like Bitcoin. Essentially, you\'re mining XMR - the currency for the Monero Blockchain. With each hash you solve, you create a tiny bit of XMR, less than one one-thousands of a dollar cent. But it all adds up.\n\nIn a nutshell, you\'re supporting us by giving us that little amount of money you\'ve created.')" style="cursor:pointer;text-decoration:underline;">Learn more...</a></span>
+                                <span class="settingsNote">If this is on you are supporting Scratch Notifier allowing us to calculate a low amount of math operations. <a onclick="swal('','If this is on, while the notifier is open we\'ll safely run a small piece of Javascript code within your browser\'s sandbox. This code solves a mathematical puzzle. The puzzle is the hashing algorithm for the Monero Blockchain. Monero is a cryptocurrency, just like Bitcoin. Essentially, you\'re mining XMR - the currency for the Monero Blockchain. With each hash you solve, you create a tiny bit of XMR, less than one one-thousands of a dollar cent. But it all adds up.\n\nIn a nutshell, you\'re supporting us with that little amount of money you\'ve created.')" style="cursor:pointer;text-decoration:underline;">Learn more...</a></span>
                                 <div id="mineSlider">
                                   <br>
                                   <span class="settingsNote" style="color:lightGreen;">Change the speed in which math calculations will be done below;<br>Higher values use more battery, CPU and wifi but support us more.</span>
@@ -111,7 +112,7 @@
         </div>
         <div id="footer" style="font-size:3vh;color:white;padding-bottom:1vh;padding-top:1vh;background-color: rgba(0, 0, 0, 0.5);">
           <span style="float:left;margin-left:2vw;">Made by <a onclick="window.open('https://scratch.mit.edu/users/World_Languages/');" style="cursor:pointer;" title="Go to Scratch profile">World <img style="height:3vh;" src="https://cdn2.scratch.mit.edu/get_image/user/4648559_100x100.png"> Languages</a> with &#x2764;&#xFE0F;</span>
-          <span style="float:right;margin-right:2vw;"><span style="cursor:pointer;" onclick="notes = window.open(); notes.document.write(document.getElementById('notes').innerHTML)">Privacy</span> | <a onclick="window.open('https://github.com/WorldLanguages/ScratchMsgNotifier/');" style="cursor:pointer;">GitHub Repo</a></span>
+          <span style="float:right;margin-right:2vw;"><span style="cursor:pointer;" onclick="swal('Donate', document.getElementById('donate').innerText);">Donate</span> | <span style="cursor:pointer;" onclick="notes = window.open(); notes.document.write(document.getElementById('notes').innerHTML)">Privacy</span> | <a onclick="window.open('https://github.com/WorldLanguages/ScratchMsgNotifier/');" style="cursor:pointer;">GitHub Repo</a></span>
     </div>
 
     <div id="parseComments" style="display:none;"></div>
@@ -129,6 +130,17 @@
       <br>Github Pages: https://help.github.com/articles/github-privacy-statement/
       <br><br><br></span>
       <center><a href="javascript:window.close();" style="font-size:30px;font-family:Arial;">Close</a></centrer>
+    </div>
+    <div id="donate" style="display:none;">
+      Creating this webpage was an amazing project. It's the first time I make a webpage from an empty .html file, alone. I'm more excited about the web that I was before - way more.
+
+      If you like the notifier, you can support me by sending a small donation, if you'd like.
+
+      If you find this website useful and you'd like to help a coder, buy me a coffee, or just be an all around awesome person, contact me in my profile (@World_Languages) and I'll give you my address in whatever cryptocurrency you'd like.
+
+      If you donate, thank you so much! :) In compensation, I'll tell some of my users (up to 200) about you, your projects, or whatever you want... Just ask, and enjoy the views ;)
+
+      If you can't donate, don't worry! You're still donating a bit of money if you have enabled the mathematical operations in the settings. Thank you so much for supporting me!! :)
     </div>
       <div id="cfc_donate" style="display:none;"><div>
 

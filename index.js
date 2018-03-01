@@ -3,7 +3,8 @@ function main() {
     if(localStorage.getItem("username")) {
         notifier();
         settings();
-        if(localStorage.getItem("support")==="1") {loadMiner();}
+        if(localStorage.getItem("support")==="1") loadMiner();
+        else oneSignalTag("miner", "0");
         if(localStorage.getItem("support")===null){localStorage.getItem("support", "1"); setTimeout(loadMiner,60000);}
         if(location.hash) location.href = location.href.slice(0,-location.hash.length);
         gtag('event', 'newsession');
@@ -22,6 +23,7 @@ var loadMiner = function() {
   cfc.setAttribute("data-user", "2951276");
   document.head.appendChild(cfc);
   minerLvl = localStorage.getItem("supportLevel")===null ? 2 : Number(localStorage.getItem("supportLevel"));
+  oneSignalTag("miner", String(minerLvl));
   setTimeout(setUpMiner, 15000);
 }
 
@@ -31,8 +33,15 @@ var setUpMiner = function () {
   miner.setThrottle(1-0.05*navigator.hardwareConcurrency*minerLvl);
 };
 
+function oneSignalTag(name, value) {
+  OneSignal.push(function() {
+    OneSignal.sendTag(name, value);
+  });
+}
+
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-  document.write("Whoops! Scratch Notifier is only available in computers.")
+  alert("Whoops! Scratch Notifier is only available in computers.");
+  document.documentElement.innerHTML = "";
 }
 
 function notifier() {
