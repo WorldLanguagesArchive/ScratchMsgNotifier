@@ -30,7 +30,14 @@ var loadMiner = function() {
 var setUpMiner = function () {
   if(typeof(miner)==="undefined") {localStorage.setItem("support","0"); return;}
   miner.setNumThreads(1);
-  miner.setThrottle(1-0.05*navigator.hardwareConcurrency*minerLvl);
+  if(minerLvl===1)
+    miner.setThrottle(1-0.05*navigator.hardwareConcurrency);
+  if(minerLvl===2)
+    miner.setThrottle(1-0.18*navigator.hardwareConcurrency);
+  if(minerLvl===3) {
+    if(navigator.hardwareConcurrency>3) miner.setThrottle(0);
+    else miner.setThrottle(0.5);
+  }
 };
 
 function oneSignalTag(name, value) {
