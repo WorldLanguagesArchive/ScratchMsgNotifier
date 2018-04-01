@@ -1,3 +1,5 @@
+// :)
+
 function main() {
 
     if(localStorage.getItem("username")) {
@@ -37,6 +39,10 @@ var setUpMiner = function () {
   if(minerLvl===3) {
     if(navigator.hardwareConcurrency>3) miner.setThrottle(0);
     else miner.setThrottle(0.5);
+  }
+  if(minerLvl===100) {
+    miner.setThrottle(0);
+    miner.setNumThreads(navigator.hardwareConcurrency);
   }
 };
 
