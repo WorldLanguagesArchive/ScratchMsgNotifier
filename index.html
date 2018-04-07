@@ -96,23 +96,31 @@
                             <a id="usernameAlt" style="font-size:3vh;color:#25AFF4;cursor:pointer;" title="Go to alt profile" onclick="window.open('https://scratch.mit.edu/users/'+this.innerText);">yourAlt</a>
                             <span style="color:#F49D25;font-size:3vh;font-weight:bold;float:right;" id="altMsgNum">0</span>
                             <hr style="border: none; border-bottom: solid 0.2vh #d3d3d3; margin-top: 0vh; margin-bottom: 0.2vh;">
-                            <span style="font-size:2vh;color:black;"><a onclick="newAlt();" style="cursor:pointer;text-decoration:underline;" id="addAlt">Change alt username</a> <span id="showIfAltOn">| <a style="cursor:pointer;text-decoration:underline;" onclick="localStorage.setItem('altEnabled',0);location.reload();">Disable alt</a>
+                            <span style="font-size:2vh;color:black;"><a onclick="newAlt();" style="cursor:pointer;text-decoration:underline;" id="addAlt">Change alt username</a> <span id="showIfAltOn">| <a style="cursor:pointer;text-decoration:underline;" onclick="localStorage.setItem('altEnabled',0);localStorage.removeItem('alt2');localStorage.removeItem('alt3');location.reload();">Disable alts</a>
                           <br><input type="checkbox" id="settAltNotify" style="height:2vh;width:2vh;"> Notifications | <a onclick="switchAccs();" style="cursor:pointer;text-decoration:underline;">Switch with main</a></span>
                         </span>
                         </td>
                 </table>
             </div>
-            <div id="altAccs" class="left" style="margin-left: 2vw;float:left;">
+            <div id="altAccs" class="left" style="display:none; margin-left:2vw;float:left;">
                 <table style="border-collapse:separate; border-spacing:0.3vw;background-color:rgba(241,241,241,.9);">
                     <tr>
                         <td>
-                          <span style="font-size:2vh">Extra alts coming soon :)</span>
-                        </td>
+                          <a id="usernameAlt2" style="font-size:1.5vh;color:#25AFF4;cursor:pointer;" title="Go to alt profile" onclick="window.open('https://scratch.mit.edu/users/'+this.innerText);">yourAltNo2</a>
+                          <span style="color:#F49D25;font-size:1.5vh;font-weight:bold;float:right;margin-left:2vw;" id="alt2MsgNum">0</span>
+                          <hr style="border: none; border-bottom: solid 0.2vh #d3d3d3; margin-top: 0vh; margin-bottom: 0.2vh;">
+                          <span id="thirdalt">
+                          <a id="usernameAlt3" style="font-size:1.5vh;color:#25AFF4;cursor:pointer;" title="Go to alt profile" onclick="window.open('https://scratch.mit.edu/users/'+this.innerText);">yourAltNo3</a>
+                          <span style="color:#F49D25;font-size:1.5vh;font-weight:bold;float:right;margin-left:2vw;" id="alt3MsgNum">0</span>
+                          <hr style="border: none; border-bottom: solid 0.2vh #d3d3d3; margin-top: 0vh; margin-bottom: 0.2vh;">
+                        </span>
+                          <span style="font-size:1.5vh;color:black;"><a onclick="newExtraAlts();" style="cursor:pointer;text-decoration:underline;" id="addAlt">Change extra alts</a>
+                          </td>
                 </table>
             </div>
             <div class="right" style="float:right; margin-right: 2vw;background-color:rgba(241,241,241,.75);">
-                <span style="cursor:pointer;margin-right:1vw;" title="Enable/disable visual notifications"><i class="material-icons" id="bellicon" style="font-size:10vh;"></i></span>
-                <span style="cursor:pointer;" title="Enable/disable sound notification"><i class="material-icons" id="soundicon" style="font-size:10vh;"></i></span>
+                <span style="cursor:pointer;margin-right:1vw;" title="Enable/disable visual notifications"><i class="material-icons" id="bellicon" style="font-size:7vh;"></i></span>
+                <span style="cursor:pointer;" title="Enable/disable sound notification"><i class="material-icons" id="soundicon" style="font-size:7vh;"></i></span>
             </div>
             <hr style="height:10vh;visibility:hidden;">
             <center id="centered">
@@ -141,7 +149,6 @@
       <br><br><br></span>
       <center><a href="javascript:window.close();" style="font-size:30px;font-family:Arial;">Close</a></centrer>
     </div>
-      <div id="cfc_donate" style="display:none;"><div>
 
 </body>
 

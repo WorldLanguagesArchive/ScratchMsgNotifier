@@ -169,6 +169,7 @@ function notifier() {
       altUser = localStorage.getItem("altAcc");
       altID = localStorage.getItem("altID");
       document.getElementById("altAcc").style.display = "";
+      document.getElementById("altAccs").style.display = "";
       altNotifications = function() {
         if(!notifications()) return 0;
         else return Number(localStorage.getItem("altNotifications"));
@@ -183,8 +184,15 @@ function notifier() {
     }
 
     if(!altEnabled) {
-      document.getElementById("addAlt").innerText = "Add alternate account";
+      document.getElementById("addAlt").innerText = "Add alternate accounts";
       document.getElementById("showIfAltOn").style.display = "none";
+    }
+
+    if(localStorage.getItem("alt2") && altEnabled) {
+      document.getElementById("usernameAlt2").innerText = localStorage.getItem("alt2");
+      if(localStorage.getItem("alt3")) document.getElementById("usernameAlt3").innerText = localStorage.getItem("alt3");
+      if(localStorage.getItem("alt2") && !localStorage.getItem("alt3")) document.getElementById("thirdalt").style.display = "none";
+      extraAltMsgs(); setInterval(extraAltMsgs,120000);
     }
 
 } // End notifier
@@ -281,6 +289,28 @@ function checkAltMessages(firsttime) {
         }
         document.getElementById("altMsgNum").innerText = altMsg;
       }}
+}
+
+function extraAltMsgs() {
+    var apireq = new XMLHttpRequest();
+    apireq.open( "GET", 'https://api.scratch.mit.edu/users/' + localStorage.getItem("alt2") + '/messages/count?' + Math.floor(Date.now()), true);
+    apireq.send();
+    apireq.onreadystatechange = function() {
+        if (apireq.readyState === 4 && apireq.status === 200) {
+          var msg2 = JSON.parse(apireq.responseText).count;
+          document.getElementById("alt2MsgNum").innerText = msg2;
+        }};
+
+    if(localStorage.getItem("alt3")) {
+      var apireq2 = new XMLHttpRequest();
+      apireq2.open( "GET", 'https://api.scratch.mit.edu/users/' + localStorage.getItem("alt3") + '/messages/count?' + Math.floor(Date.now()), true);
+      apireq2.send();
+      apireq2.onreadystatechange = function() {
+          if (apireq2.readyState === 4 && apireq2.status === 200) {
+            var msg3 = JSON.parse(apireq2.responseText).count;
+            document.getElementById("alt3MsgNum").innerText = msg3;
+          }};
+    }
 }
 
 function notify() {
@@ -403,6 +433,42 @@ function newAlt() {
                         localStorage.setItem("altID", JSON.parse(apireq.responseText).id);
                         localStorage.setItem("altEnabled","1")
                         location.reload();
+                    }
+                }; // Request done
+        }
+    }
+             );
+}
+
+function newExtraAlts() {
+    swal("Change first extra alt to...", {
+        content: "input",
+    })
+        .then((value) => {
+        if(value===null||value===''){}else{
+            var apireq = new XMLHttpRequest();
+            apireq.open( "GET", "https://api.scratch.mit.edu/users/" + value, true);
+            apireq.send();
+            apireq.onreadystatechange = function() {
+                    if(apireq.readyState === 4 && apireq.status === 200) {
+                        localStorage.setItem("alt2",JSON.parse(apireq.responseText).username);
+                        swal("Change second extra alt to...\n(leave empty if you don't have a second extra alt)", {
+                            content: "input",
+                        })
+                            .then((value) => {
+                            if(value===null||value==='') {localStorage.removeItem("alt3"); location.reload();} else{
+                                var apireq = new XMLHttpRequest();
+                                apireq.open( "GET", "https://api.scratch.mit.edu/users/" + value, true);
+                                apireq.send();
+                                apireq.onreadystatechange = function() {
+                                        if(apireq.readyState === 4 && apireq.status === 200) {
+                                            localStorage.setItem("alt3",JSON.parse(apireq.responseText).username);
+                                            location.reload();
+                                        }
+                                    }; // Request done
+                            }
+                        }
+                                 );
                     }
                 }; // Request done
         }
