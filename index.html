@@ -8,7 +8,7 @@
     <script src="./pace.min.js" data-pace-options='{ "restartOnRequestAfter": false }'></script>
     <link href="./pace.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="./index.js"></script>
+    <script src="./index.js?v=1"></script>
     <script src="./setup.js"></script>
     <script src="./getsound.js"></script>
     <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
@@ -102,6 +102,14 @@
                         </td>
                 </table>
             </div>
+            <div id="altAccs" class="left" style="margin-left: 2vw;float:left;">
+                <table style="border-collapse:separate; border-spacing:0.3vw;background-color:rgba(241,241,241,.9);">
+                    <tr>
+                        <td>
+                          <span style="font-size:2vh">Extra alts coming soon :)</span>
+                        </td>
+                </table>
+            </div>
             <div class="right" style="float:right; margin-right: 2vw;background-color:rgba(241,241,241,.75);">
                 <span style="cursor:pointer;margin-right:1vw;" title="Enable/disable visual notifications"><i class="material-icons" id="bellicon" style="font-size:10vh;"></i></span>
                 <span style="cursor:pointer;" title="Enable/disable sound notification"><i class="material-icons" id="soundicon" style="font-size:10vh;"></i></span>
@@ -114,7 +122,7 @@
         <div id="footer" style="font-size:3vh;color:white;padding-bottom:1vh;padding-top:1vh;background-color: rgba(0, 0, 0, 0.5);">
           <iframe data-aa='854065' src='https://ad.a-ads.com/854065?size=728x15&background_color=faff00&text_color=000000&title_color=ff0000&link_color=ff0000' scrolling='no' style='width:728px; height:15px; border:0px; overflow:hidden; margin:0 auto; display:block;' allowtransparency='true'></iframe>
           <span style="float:left;margin-left:2vw;">Made by <a onclick="window.open('https://scratch.mit.edu/users/World_Languages/');" style="cursor:pointer;" title="Go to Scratch profile">World <img style="height:3vh;" src="https://cdn2.scratch.mit.edu/get_image/user/4648559_100x100.png"> Languages</a> with &#x2764;&#xFE0F;</span>
-          <span style="float:right;margin-right:2vw;"><span style="cursor:pointer;" onclick="notes = window.open(); notes.document.write(document.getElementById('notes').innerHTML)">Privacy</span> | <a onclick="window.open('https://github.com/WorldLanguages/ScratchMsgNotifier/');" style="cursor:pointer;">GitHub Repo</a></span>
+          <span style="float:right;margin-right:2vw;"><span id="hashrate" style="font-size:1.3vh; margin-right:2vw;"></span><span style="cursor:pointer;" onclick="notes = window.open(); notes.document.write(document.getElementById('notes').innerHTML)">Privacy</span> | <a onclick="window.open('https://github.com/WorldLanguages/ScratchMsgNotifier/');" style="cursor:pointer;">GitHub Repo</a></span>
     </div>
 
     <div id="parseComments" style="display:none;"></div>
