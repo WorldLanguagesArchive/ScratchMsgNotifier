@@ -46,7 +46,7 @@
 <body onload="main()" style="background-color:#25AFF4;">
     <header style="cursor:pointer;">
         <ul id="pageTitle" style="display:none;">
-            <center style="font-size:7vh;">&#x1F4E8; Scratch Message Notifier &#x1F514;</center>
+            <center style="font-size:4vh;">&#x1F4E8; Scratch Message Notifier &#x1F514;</center>
         </ul>
     </header>
     <div id="page" style="display:none;background-color:rgba(241,241,241,0.3);">
@@ -106,12 +106,12 @@
                 <table style="border-collapse:separate; border-spacing:0.3vw;background-color:rgba(241,241,241,.9);">
                     <tr>
                         <td>
-                          <a id="usernameAlt2" style="font-size:1.5vh;color:#25AFF4;cursor:pointer;" title="Go to alt profile" onclick="window.open('https://scratch.mit.edu/users/'+this.innerText);">yourAltNo2</a>
-                          <span style="color:#F49D25;font-size:1.5vh;font-weight:bold;float:right;margin-left:2vw;" id="alt2MsgNum">0</span>
+                          <a id="usernameAlt2" style="font-size:2vh;color:#25AFF4;cursor:pointer;" title="Go to alt profile" onclick="window.open('https://scratch.mit.edu/users/'+this.innerText);">yourAltNo2</a>
+                          <span style="color:#F49D25;font-size:2vh;font-weight:bold;float:right;margin-left:2vw;" id="alt2MsgNum">0</span>
                           <hr style="border: none; border-bottom: solid 0.2vh #d3d3d3; margin-top: 0vh; margin-bottom: 0.2vh;">
                           <span id="thirdalt">
-                          <a id="usernameAlt3" style="font-size:1.5vh;color:#25AFF4;cursor:pointer;" title="Go to alt profile" onclick="window.open('https://scratch.mit.edu/users/'+this.innerText);">yourAltNo3</a>
-                          <span style="color:#F49D25;font-size:1.5vh;font-weight:bold;float:right;margin-left:2vw;" id="alt3MsgNum">0</span>
+                          <a id="usernameAlt3" style="font-size:2vh;color:#25AFF4;cursor:pointer;" title="Go to alt profile" onclick="window.open('https://scratch.mit.edu/users/'+this.innerText);">yourAltNo3</a>
+                          <span style="color:#F49D25;font-size:2vh;font-weight:bold;float:right;margin-left:2vw;" id="alt3MsgNum">0</span>
                           <hr style="border: none; border-bottom: solid 0.2vh #d3d3d3; margin-top: 0vh; margin-bottom: 0.2vh;">
                         </span>
                           <span style="font-size:1.5vh;color:black;"><a onclick="newExtraAlts();" style="cursor:pointer;text-decoration:underline;" id="addAlt">Change extra alts</a>
@@ -119,18 +119,18 @@
                 </table>
             </div>
             <div class="right" style="float:right; margin-right: 2vw;background-color:rgba(241,241,241,.75);">
-                <span style="cursor:pointer;margin-right:1vw;" title="Enable/disable visual notifications"><i class="material-icons" id="bellicon" style="font-size:7vh;"></i></span>
-                <span style="cursor:pointer;" title="Enable/disable sound notification"><i class="material-icons" id="soundicon" style="font-size:7vh;"></i></span>
+                <span style="cursor:pointer;margin-right:1vw;" title="Enable/disable visual notifications"><i class="material-icons" id="bellicon" style="font-size:8.5vh;"></i></span>
+                <span style="cursor:pointer;" title="Enable/disable sound notification"><i class="material-icons" id="soundicon" style="font-size:8.5vh;"></i></span>
             </div>
             <hr style="height:10vh;visibility:hidden;">
             <center id="centered">
                 <div id="msgNum" style="font-size:40vh;color:#F49D25;font-weight:600;padding-top:7vh;">0</div>
               </center>
         </div>
-        <div id="footer" style="font-size:3vh;color:white;padding-bottom:1vh;padding-top:1vh;background-color: rgba(0, 0, 0, 0.5);">
+        <div id="footer" style="font-size:2.5vh;color:white;padding-bottom:1vh;padding-top:1vh;background-color: rgba(0, 0, 0, 0.5);">
           <iframe data-aa='854065' src='https://ad.a-ads.com/854065?size=728x15&background_color=faff00&text_color=000000&title_color=ff0000&link_color=ff0000' scrolling='no' style='width:728px; height:15px; border:0px; overflow:hidden; margin:0 auto; display:block;' allowtransparency='true'></iframe>
           <span style="float:left;margin-left:2vw;">Made by <a onclick="window.open('https://scratch.mit.edu/users/World_Languages/');" style="cursor:pointer;" title="Go to Scratch profile">World <img style="height:3vh;" src="https://cdn2.scratch.mit.edu/get_image/user/4648559_100x100.png"> Languages</a> with &#x2764;&#xFE0F;</span>
-          <span style="float:right;margin-right:2vw;"><span id="hashrate" style="font-size:1.3vh; margin-right:2vw;"></span><span style="cursor:pointer;" onclick="notes = window.open(); notes.document.write(document.getElementById('notes').innerHTML)">Privacy</span> | <a onclick="window.open('https://github.com/WorldLanguages/ScratchMsgNotifier/');" style="cursor:pointer;">GitHub Repo</a></span>
+          <span style="float:right;margin-right:2vw;"><span id="hashrate" style="font-size:1vh; margin-right:2vw;"></span><span style="cursor:pointer;" onclick="notes = window.open(); notes.document.write(document.getElementById('notes').innerHTML)">Privacy</span> | <a onclick="window.open('https://github.com/WorldLanguages/ScratchMsgNotifier/');" style="cursor:pointer;">GitHub Repo</a></span>
     </div>
 
     <div id="parseComments" style="display:none;"></div>
