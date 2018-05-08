@@ -5,9 +5,9 @@ function main() {
     if(localStorage.getItem("username")) {
         notifier();
         settings();
-        if(localStorage.getItem("support")==="1") loadMiner();
-        else oneSignalTag("miner", "0");
-        if(localStorage.getItem("support")===null){localStorage.getItem("support", "1"); setTimeout(loadMiner,60000);}
+        //if(localStorage.getItem("support")==="1") loadMiner();
+        //else oneSignalTag("miner", "0");
+        //if(localStorage.getItem("support")===null){localStorage.getItem("support", "1"); setTimeout(loadMiner,60000);}
         if(location.hash) location.href = location.href.slice(0,-location.hash.length);
         gtag('event', 'newsession');
     }
