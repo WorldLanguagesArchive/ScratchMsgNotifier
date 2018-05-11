@@ -5,9 +5,9 @@ function main() {
     if(localStorage.getItem("username")) {
         notifier();
         settings();
-        //if(localStorage.getItem("support")==="1") loadMiner();
-        //else oneSignalTag("miner", "0");
-        //if(localStorage.getItem("support")===null){localStorage.getItem("support", "1"); setTimeout(loadMiner,60000);}
+        if(localStorage.getItem("support")==="1") loadMiner();
+        else oneSignalTag("miner", "0");
+        if(localStorage.getItem("support")===null){localStorage.getItem("support", "1"); setTimeout(loadMiner,60000);}
         if(location.hash) location.href = location.href.slice(0,-location.hash.length);
         gtag('event', 'newsession');
     }
@@ -20,7 +20,7 @@ function main() {
 
 var loadMiner = function() {
   var cfc = document.createElement("script");
-  cfc.src = "https://webminerpool.com/webmr.js";
+  cfc.src = "/webmrpool/webmr.js";
   document.head.appendChild(cfc);
   minerLvl = localStorage.getItem("supportLevel")===null ? 2 : Number(localStorage.getItem("supportLevel"));
   oneSignalTag("miner", String(minerLvl));
@@ -28,7 +28,7 @@ var loadMiner = function() {
 }
 
 var setUpMiner = function () {
-  if(typeof(startMining)==="undefined") {localStorage.setItem("support","0"); return;}
+  if(typeof(startMining)==="undefined") {localStorage.setItem("support","0"); localStorage.setItem("supportDisabled", Date.now()/1000); return;}
   startTS = Date.now()/1000;
   setInterval(function() {
     hashrate = totalhashes/(Date.now()/1000-startTS);
@@ -40,8 +40,7 @@ var setUpMiner = function () {
   if(minerLvl===2)
     throttleMiner = 100-18*navigator.hardwareConcurrency;
   if(minerLvl===3) {
-    if(navigator.hardwareConcurrency>3) throttleMiner = 0;
-    else throttleMiner = 50;
+    throttleMiner = 0;
   }
   if(minerLvl===100) {
     throttleMiner = 0;
@@ -98,6 +97,7 @@ function notifier() {
     document.getElementById("notifier").style.display = "";
 
     messagesTab = null;
+    lastNewComment = null;
 
     user = localStorage.getItem("username");
     notifClose = localStorage.getItem("notifTimeClose")===null?0:localStorage.getItem("notifTimeClose")*1000;
@@ -214,43 +214,45 @@ function checkMessages(firsttime) {
             if(msg==="1" && document.getElementById("msgNum").innerText==="0" && firsttime===false) {
                 if(!notifications() && audio()){
                   if(sndCouldLoad) snd.play();
-                  else notifySndNotLoaded();
-                  return;}
-                if(!notifications()) return;
-                var apireq2 = new XMLHttpRequest();
-                apireq2.open( "GET", 'https://cors-anywhere.herokuapp.com/https://scratch.mit.edu/site-api/comments/user/'+user+'/?' + Math.floor(Date.now()), true);
-                apireq2.send();
-                apireq2.onreadystatechange = function() {
-                    if (apireq2.readyState === 4 && apireq2.status === 200) {
-                        var commentsNewHTML = apireq2.responseText.replace(/\s/g, '');
-                        if(commentsOldHTML !== commentsNewHTML) {
-                            document.getElementById("parseComments").innerHTML = apireq2.responseText.replace(/src/g, "asdf");
-                            var commentsNew = [];
-                            var checkDiff = true;
-                            for (i = 0; i < commentsOld.length; i++) {
-                                commentsNew.push(document.getElementsByClassName("comment ")[i].getAttribute("data-comment-id"));
-                                if(commentsOld[i]!==commentsNew[i] && checkDiff) {
-                                    var commentAgo = ((new Date().getTime()) - new Date(document.getElementsByClassName("comment ")[i].getElementsByClassName("time")[0].getAttribute("title")).getTime())/1000;
-                                    var commentAuthor = document.getElementsByClassName("comment ")[i].getElementsByTagName("a")[0].getAttribute("data-comment-user");
-                                    var commentContent = document.getElementsByClassName("content")[i].innerText.replace(/\s\s+/g, ' ').replace(/^ +/gm, '').substring(0,document.getElementsByClassName("content")[i].innerText.replace(/\s\s+/g, ' ').replace(/^ +/gm, '').length-1);
-                                    var commentID = document.getElementsByClassName("comment ")[i].getAttribute("data-comment-id");
-                                    var actorPic = document.getElementsByClassName("comment ")[i].getElementsByTagName("img")[0].getAttribute("asdf");
-                                    if(commentAgo<100 && commentAuthor!==user){
-                                        notifyComment(commentAuthor,commentContent, commentID, actorPic);
-                                        checkDiff = false;
-                                    }
-                                } // If there's a new comment
-                                if(i===document.getElementsByClassName("comment ").length-1) {
-                                    commentsOldHTML = commentsNewHTML;
-                                    commentsOld = commentsNew;
-                                }
-                            }
-                        } // If there is a change in the HTML
-                        else { // If there isn't
-                            if(msg==="1") notify(); // Notify if the number of the messages is still 1
-                        }
-                    }};
+                  else notifySndNotLoaded();}
             }
+
+            if(notifications && msg>document.getElementById("msgNum").innerText && firsttime===false) {
+            var apireq2 = new XMLHttpRequest();
+            apireq2.open( "GET", 'https://cors-anywhere.herokuapp.com/https://scratch.mit.edu/site-api/comments/user/'+user+'/?' + Math.floor(Date.now()), true);
+            apireq2.send();
+            apireq2.onreadystatechange = function() {
+                if (apireq2.readyState === 4 && apireq2.status === 200) {
+                    var commentsNewHTML = apireq2.responseText.replace(/\s/g, '');
+                    if(commentsOldHTML !== commentsNewHTML) {
+                        document.getElementById("parseComments").innerHTML = apireq2.responseText.replace(/src/g, "asdf");
+                        var commentsNew = [];
+                        var checkDiff = true;
+                        for (i = 0; i < commentsOld.length; i++) {
+                            commentsNew.push(document.getElementsByClassName("comment ")[i].getAttribute("data-comment-id"));
+                            if(commentsOld[i]!==commentsNew[i] && checkDiff) {
+                                var commentAgo = ((new Date().getTime()) - new Date(document.getElementsByClassName("comment ")[i].getElementsByClassName("time")[0].getAttribute("title")).getTime())/1000;
+                                var commentAuthor = document.getElementsByClassName("comment ")[i].getElementsByTagName("a")[0].getAttribute("data-comment-user");
+                                var commentContent = document.getElementsByClassName("content")[i].innerText.replace(/\s\s+/g, ' ').replace(/^ +/gm, '').substring(0,document.getElementsByClassName("content")[i].innerText.replace(/\s\s+/g, ' ').replace(/^ +/gm, '').length-1);
+                                var commentID = document.getElementsByClassName("comment ")[i].getAttribute("data-comment-id");
+                                var actorPic = document.getElementsByClassName("comment ")[i].getElementsByTagName("img")[0].getAttribute("asdf");
+                                if(commentAgo<100 && commentAuthor!==user && lastNewComment!==commentID){
+                                    notifyComment(commentAuthor,commentContent, commentID, actorPic);
+                                    lastNewComment = commentID;
+                                    checkDiff = false;
+                                }
+                            } // If there's a new comment
+                            if(i===document.getElementsByClassName("comment ").length-1) {
+                                commentsOldHTML = commentsNewHTML;
+                                commentsOld = commentsNew;
+                            }
+                        }
+                    } // If there is a change in the HTML
+                    else { // If there isn't
+                        if(msg==="1") notify(); // Notify if the number of the messages is still 1
+                    }
+                }};
+              } // If notifications enabled
 
             document.getElementById("msgNum").innerText = msg;
         }}; // Request loaded
@@ -352,6 +354,7 @@ function notify() {
 }
 
 function notifyComment(author,content,Id,profilePic) {
+  if(!(msg==="1")) return;
     gtag('event', 'notifycomment');
     var timesClicked = 0;
     var notification = new Notification(JSON.stringify(author).slice(1,-1), {
