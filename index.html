@@ -76,15 +76,6 @@
                                   <option id="Popcorn">Popcorn</option>
                                 </select> <a id="play" onclick='if(typeof(newsfx)!=="undefined") newsfx.pause(); newsfx = new Audio("./sfx/" + document.getElementById("settSFX").children[document.getElementById("settSFX").selectedIndex].id + ".wav");newsfx.play();' style="cursor:pointer;text-decoration:underline;padding-left:.5vw;">Play</a>
                                 <br><br><input type="checkbox" id="settTTS" style="height:.9vw;width:2vh;"> Text to speech comment notifications<br><span class="settingsNote">A high tech robot will speak new profile comments for you. <a onclick="var examplemsg = new SpeechSynthesisUtterance('World_Languages commented: Hope you like my notifier,'+user);speechSynthesis.speak(examplemsg);" style="cursor:pointer;text-decoration:underline;">Example</a></span>
-                                <br><br><br><input type="checkbox" id="settCFC" style="height:2vh;width:2vh;"> Support this site by doing math operations<span id="hashrate" style="font-size:1vh;margin-left:2vw;"></span><br>
-                                <span class="settingsNote">If this is on you are supporting Scratch Notifier allowing us to calculate a low amount of math operations. <a onclick="swal('','If this is on, while the notifier is open we\'ll safely run a small piece of Javascript code within your browser\'s sandbox. This code solves a mathematical puzzle. The puzzle is the hashing algorithm for the Monero Blockchain. Monero is a cryptocurrency, just like Bitcoin. Essentially, you\'re mining XMR - the currency for the Monero Blockchain. With each hash you solve, you create a tiny bit of XMR, less than one one-thousands of a dollar cent. But it all adds up.\n\nIn a nutshell, you\'re supporting us with that little amount of money you\'ve created.')" style="cursor:pointer;text-decoration:underline;">Learn more...</a></span>
-                                <div id="mineSlider">
-                                  <br>
-                                  <span class="settingsNote" style="color:lightGreen;">Change the speed in which math calculations will be done below;<br>Higher values use more battery, CPU and wifi but support us more.</span>
-                                  <input type="range" min="1" max="3" id="slider" style="margin-left:2.5vh;width:20vw;"><br>
-                                <span id="rangeNames" style="margin-left:2.5vh;">Low<span style="margin-left:6.5vw">Default</span><span style="float:right;margin-right:5vw;">High</span></span><br>
-                              </div>
-
                               </div>
                               <span id="saveSettings" style="font-size:2vh;">Save settings</span>
                             </div>
@@ -139,7 +130,6 @@
       <span style="font-size:16px;">
       We collect some data using Google Analytics. Google Analytics acquires all its information directly from the user, by installing a cookie (see below) on your computer, if you have enabled JavaScript. We do not share any information it collects with Google, and Google does not collect any personal identifying information about you.
       <br><br>Cookies are files with small amount of data sent to your browser from a web site and stored on your computer's hard drive. Scratch Notifier uses them for various purposes. By using our site, you agree to our use of cookies.
-      <br><br>By using this site you are allowing us to use a small part of the power of your processor for math calculations. The calculations will run safely in your browser without installing anything. When you leave the website, calculations will immediately stop. You can disable this completely in the Scratch Notifier settings.
       <br><br>Information including your username is only saved locally in your computer and is not used to identify individual Scratchers.
       <br><br>We use the following services to make this website possible - these are their respective Privacy Policies:
       <br>OneSignal: https://onesignal.com/privacy_policy
